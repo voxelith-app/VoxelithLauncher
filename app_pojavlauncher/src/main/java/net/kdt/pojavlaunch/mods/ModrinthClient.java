@@ -47,16 +47,22 @@ public class ModrinthClient {
         return mGson.fromJson(request(url, null), ModrinthModels.SearchResponse.class);
     }
 
-    /** Newest version of a project that matches the target, or null if there is none. */
-    @Nullable
-    public ModrinthModels.Version getCompatibleVersion(String projectId, ContentType type, ContentTarget target) throws IOException {
+
+    /** Every version of a project that matches the target, newest first. */
+    public ModrinthModels.Version[] getCompatibleVersions(String projectId, ContentType type, ContentTarget target) throws IOException {
         StringBuilder url = new StringBuilder(BASE_URL).append("project/").append(encode(projectId)).append("/version?include_changelog=false");
         String[] loaders = loadersFor(type, target);
         if(loaders != null) url.append("&loaders=").append(encode(mGson.toJson(loaders)));
         if(target.gameVersion != null) url.append("&game_versions=").append(encode(mGson.toJson(new String[]{target.gameVersion})));
         ModrinthModels.Version[] versions = mGson.fromJson(request(url.toString(), null), ModrinthModels.Version[].class);
-        if(versions == null || versions.length == 0) return null;
-        return versions[0];
+        return versions == null ? new ModrinthModels.Version[0] : versions;
+    }
+
+    /** Newest version of a project that matches the target, or null if there is none. */
+    @Nullable
+    public ModrinthModels.Version getCompatibleVersion(String projectId, ContentType type, ContentTarget target) throws IOException {
+        ModrinthModels.Version[] versions = getCompatibleVersions(projectId, type, target);
+        return versions.length == 0 ? null : versions[0];
     }
 
     public ModrinthModels.Version getVersion(String versionId) throws IOException {

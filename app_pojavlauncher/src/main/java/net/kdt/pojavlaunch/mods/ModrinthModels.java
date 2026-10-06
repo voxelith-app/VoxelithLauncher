@@ -38,6 +38,7 @@ public final class ModrinthModels {
         public String projectId;
         public String name;
         public String versionNumber;
+        public String versionType;
         public String[] gameVersions;
         public String[] loaders;
         public VersionFile[] files;

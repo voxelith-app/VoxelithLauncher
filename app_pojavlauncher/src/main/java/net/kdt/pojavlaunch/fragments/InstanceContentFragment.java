@@ -52,6 +52,7 @@ public class InstanceContentFragment extends Fragment {
     private ProgressBar mProgress;
     private TextView mStatus;
     private View mOptimizeButton;
+    private View mUpdateAllButton;
     private int mLoadGeneration;
 
     public InstanceContentFragment() {
@@ -80,6 +81,8 @@ public class InstanceContentFragment extends Fragment {
         mAdapter = new ContentAdapter();
         list.setAdapter(mAdapter);
 
+        mUpdateAllButton = view.findViewById(R.id.content_update_all);
+        mUpdateAllButton.setOnClickListener(v -> updateAll());
         mOptimizeButton = view.findViewById(R.id.content_optimize);
         mOptimizeButton.setOnClickListener(v -> confirmOptimize());
         view.findViewById(R.id.content_add).setOnClickListener(v ->
@@ -101,6 +104,7 @@ public class InstanceContentFragment extends Fragment {
         final int generation = ++mLoadGeneration;
         final ContentType type = mType;
         mOptimizeButton.setVisibility(type == ContentType.MOD && mTarget.supportsMods() ? View.VISIBLE : View.GONE);
+        mUpdateAllButton.setVisibility(View.GONE);
         mItems.clear();
         mAdapter.notifyDataSetChanged();
         mStatus.setVisibility(View.GONE);
@@ -143,6 +147,9 @@ public class InstanceContentFragment extends Fragment {
         mItems.clear();
         mItems.addAll(contents);
         mAdapter.notifyDataSetChanged();
+        boolean hasUpdates = false;
+        for(InstalledContent content : contents) if(content.update != null) hasUpdates = true;
+        mUpdateAllButton.setVisibility(hasUpdates && !stillLoading ? View.VISIBLE : View.GONE);
         if(contents.isEmpty()) showStatus(R.string.content_empty);
         else mStatus.setVisibility(View.GONE);
     }
@@ -188,6 +195,28 @@ public class InstanceContentFragment extends Fragment {
                 Tools.runOnUiThread(() -> {
                     if(!isAdded()) return;
                     Toast.makeText(requireContext(), getString(R.string.content_updated_toast, name), Toast.LENGTH_SHORT).show();
+                    reload();
+                });
+            }catch (Exception e) {
+                Tools.showErrorRemote(e);
+            }
+        });
+    }
+
+    private void updateAll() {
+        if(ProgressKeeper.getTaskCount() != 0) {
+            Toast.makeText(requireContext(), R.string.content_busy, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final ContentType type = mType;
+        final List<InstalledContent> contents = new ArrayList<>(mItems);
+        mUpdateAllButton.setVisibility(View.GONE);
+        PojavApplication.sExecutorService.execute(() -> {
+            try {
+                int count = new ContentInstaller(mClient, mTarget).updateAll(contents, type);
+                Tools.runOnUiThread(() -> {
+                    if(!isAdded()) return;
+                    Toast.makeText(requireContext(), getString(R.string.content_updated_all, count), Toast.LENGTH_SHORT).show();
                     reload();
                 });
             }catch (Exception e) {

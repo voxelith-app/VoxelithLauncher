@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -199,7 +200,47 @@ public class ContentBrowserFragment extends Fragment {
         mStatus.setVisibility(View.VISIBLE);
     }
 
-    private void install(ModrinthModels.SearchHit hit) {
+    private void chooseVersion(ModrinthModels.SearchHit hit) {
+        final ContentType type = mType;
+        mProgress.setVisibility(View.VISIBLE);
+        PojavApplication.sExecutorService.execute(() -> {
+            ModrinthModels.Version[] versions;
+            try {
+                versions = mClient.getCompatibleVersions(hit.projectId, type, mTarget);
+            }catch (Exception e) {
+                versions = null;
+            }
+            final ModrinthModels.Version[] result = versions;
+            Tools.runOnUiThread(() -> {
+                if(!isAdded() || getView() == null) return;
+                mProgress.setVisibility(View.GONE);
+                if(result == null) {
+                    Toast.makeText(requireContext(), R.string.content_load_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(result.length == 0) {
+                    Toast.makeText(requireContext(), R.string.content_no_compatible, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String[] labels = new String[result.length];
+                for(int i = 0; i < result.length; i++) labels[i] = versionLabel(result[i]);
+                new AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.content_versions_title, hit.title))
+                        .setItems(labels, (d, which) -> install(hit, result[which]))
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+            });
+        });
+    }
+
+    private static String versionLabel(ModrinthModels.Version version) {
+        StringBuilder label = new StringBuilder(version.versionNumber != null ? version.versionNumber : version.name);
+        if(version.versionType != null && !"release".equals(version.versionType)) label.append(" (").append(version.versionType).append(')');
+        if(version.loaders != null && version.loaders.length > 0) label.append(" · ").append(android.text.TextUtils.join(", ", version.loaders));
+        return label.toString();
+    }
+
+    private void install(ModrinthModels.SearchHit hit, @Nullable ModrinthModels.Version version) {
         if(ProgressKeeper.getTaskCount() != 0 || !mInstallingProjects.isEmpty()) {
             Toast.makeText(requireContext(), R.string.content_busy, Toast.LENGTH_SHORT).show();
             return;
@@ -212,7 +253,10 @@ public class ContentBrowserFragment extends Fragment {
             List<ModrinthModels.Version> versions = null;
             Exception error = null;
             try {
-                versions = new ContentInstaller(mClient, mTarget).install(hit.projectId, type, installed);
+                ContentInstaller installer = new ContentInstaller(mClient, mTarget);
+                versions = version != null
+                        ? installer.installVersion(version, type, installed)
+                        : installer.install(hit.projectId, type, installed);
             }catch (Exception e) {
                 error = e;
             }
@@ -245,6 +289,7 @@ public class ContentBrowserFragment extends Fragment {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_content, parent, false);
             ContentViewHolder holder = new ContentViewHolder(view, mIconCache);
             holder.installButton.setVisibility(View.VISIBLE);
+            holder.versionsButton.setVisibility(View.VISIBLE);
             return holder;
         }
 
@@ -261,7 +306,9 @@ public class ContentBrowserFragment extends Fragment {
             holder.installButton.setEnabled(!installed && !installing);
             holder.installButton.setText(installing ? R.string.content_installing
                     : installed ? R.string.content_installed : R.string.content_install);
-            holder.installButton.setOnClickListener(v -> install(hit));
+            holder.installButton.setOnClickListener(v -> install(hit, null));
+            holder.versionsButton.setEnabled(!installing);
+            holder.versionsButton.setOnClickListener(v -> chooseVersion(hit));
         }
 
         @Override

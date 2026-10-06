@@ -27,6 +27,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
     public final SwitchCompat enabledSwitch;
     public final ImageButton deleteButton;
     public final Button installButton;
+    public final ImageButton versionsButton;
     private final ModIconCache mIconCache;
     @Nullable private ImageReceiver mPendingIcon;
     private static ModIconCache sSharedIconCache;
@@ -47,6 +48,7 @@ public class ContentViewHolder extends RecyclerView.ViewHolder {
         enabledSwitch = itemView.findViewById(R.id.content_switch);
         deleteButton = itemView.findViewById(R.id.content_delete);
         installButton = itemView.findViewById(R.id.content_install);
+        versionsButton = itemView.findViewById(R.id.content_versions);
         icon.setClipToOutline(true);
     }
 

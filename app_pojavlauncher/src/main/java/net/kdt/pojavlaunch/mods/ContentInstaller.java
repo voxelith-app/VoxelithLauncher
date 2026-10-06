@@ -40,10 +40,15 @@ public class ContentInstaller extends Downloader {
      * @return the versions that were installed, the requested project first
      */
     public List<ModrinthModels.Version> install(String projectId, ContentType type, Set<String> installedProjectIds) throws IOException, InterruptedException {
+        ModrinthModels.Version version = mClient.getCompatibleVersion(projectId, type, mTarget);
+        if(version == null) throw new IOException(new NoCompatibleVersionException());
+        return installVersion(version, type, installedProjectIds);
+    }
+
+    /** Installs a specific version picked by the user, plus its required dependencies. */
+    public List<ModrinthModels.Version> installVersion(ModrinthModels.Version version, ContentType type, Set<String> installedProjectIds) throws IOException, InterruptedException {
         ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.content_install_resolving);
         try {
-            ModrinthModels.Version version = mClient.getCompatibleVersion(projectId, type, mTarget);
-            if(version == null) throw new IOException(new NoCompatibleVersionException());
             List<ModrinthModels.Version> roots = new ArrayList<>(1);
             roots.add(version);
             List<ModrinthModels.Version> versions = resolve(roots, type, installedProjectIds);
@@ -90,19 +95,35 @@ public class ContentInstaller extends Downloader {
 
     /** Replaces an installed file with its newer version, keeping it disabled if it was. */
     public void update(InstalledContent content, ContentType type) throws IOException, InterruptedException {
-        if(content.update == null) return;
+        List<InstalledContent> single = new ArrayList<>(1);
+        single.add(content);
+        updateAll(single, type);
+    }
+
+    /**
+     * Downloads every available update in one go, then swaps the old files out.
+     * @return how many files were updated
+     */
+    public int updateAll(List<InstalledContent> contents, ContentType type) throws IOException, InterruptedException {
+        List<InstalledContent> outdated = new ArrayList<>();
+        for(InstalledContent content : contents) if(content.update != null) outdated.add(content);
+        if(outdated.isEmpty()) return 0;
         ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.content_install_resolving);
         try {
-            ArrayList<TaskMetadata> downloads = new ArrayList<>(1);
-            TaskMetadata task = toTask(content.update, mTarget.getFolder(type));
-            downloads.add(task);
+            File folder = mTarget.getFolder(type);
+            ArrayList<TaskMetadata> downloads = new ArrayList<>(outdated.size());
+            for(InstalledContent content : outdated) downloads.add(toTask(content.update, folder));
             runDownloads(downloads);
-            boolean wasEnabled = content.isEnabled();
-            File oldFile = content.file;
-            if(!oldFile.equals(task.path) && !oldFile.delete()) throw new IOException("Failed to remove " + oldFile.getName());
-            if(!wasEnabled && !task.path.renameTo(new File(task.path.getParentFile(), task.path.getName() + ".disabled"))) {
-                throw new IOException("Failed to disable " + task.path.getName());
+            for(int i = 0; i < outdated.size(); i++) {
+                InstalledContent content = outdated.get(i);
+                File newFile = downloads.get(i).path;
+                File oldFile = content.file;
+                if(!oldFile.equals(newFile) && !oldFile.delete()) throw new IOException("Failed to remove " + oldFile.getName());
+                if(!content.isEnabled() && !newFile.renameTo(new File(newFile.getParentFile(), newFile.getName() + ".disabled"))) {
+                    throw new IOException("Failed to disable " + newFile.getName());
+                }
             }
+            return outdated.size();
         }finally {
             ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
         }

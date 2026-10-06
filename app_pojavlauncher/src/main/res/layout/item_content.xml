@@ -75,6 +75,18 @@
         android:src="@drawable/ic_px_trash"
         android:visibility="gone" />
 
+    <ImageButton
+        android:id="@+id/content_versions"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/button_flat"
+        android:contentDescription="@string/content_choose_version"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_content_versions"
+        android:visibility="gone" />
+
     <com.kdt.mcgui.MineButton
         android:id="@+id/content_install"
         android:layout_width="wrap_content"

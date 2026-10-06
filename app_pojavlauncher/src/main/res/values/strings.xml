@@ -570,4 +570,8 @@
     <string name="content_optimize_message">Installs performance mods that work with this instance (Sodium or Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, Dynamic FPS) and switches to light video settings: render distance 6, fast graphics, no clouds and no entity shadows. You can change everything later in the game.</string>
     <string name="content_optimize_done">%1$d performance mods installed and light settings applied</string>
     <string name="content_optimize_nothing">Performance mods were already installed. Light settings applied.</string>
+    <string name="content_choose_version">Choose version</string>
+    <string name="content_versions_title">Versions of %1$s</string>
+    <string name="content_update_all">Update all</string>
+    <string name="content_updated_all">%1$d updated</string>
 </resources>

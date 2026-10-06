@@ -532,4 +532,8 @@
     <string name="content_optimize_message">Instala mods de desempenho que funcionam nesta instância (Sodium ou Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, Dynamic FPS) e deixa o vídeo leve: distância de renderização 6, gráficos rápidos, sem nuvens e sem sombras de entidades. Dá para mudar tudo depois dentro do jogo.</string>
     <string name="content_optimize_done">%1$d mods de desempenho instalados e opções leves aplicadas</string>
     <string name="content_optimize_nothing">Os mods de desempenho já estavam instalados. Opções leves aplicadas.</string>
+    <string name="content_choose_version">Escolher versão</string>
+    <string name="content_versions_title">Versões de %1$s</string>
+    <string name="content_update_all">Atualizar tudo</string>
+    <string name="content_updated_all">%1$d atualizados</string>
 </resources>
