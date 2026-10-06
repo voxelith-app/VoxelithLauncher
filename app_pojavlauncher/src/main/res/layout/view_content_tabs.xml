@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/tab_mods"
+        style="@style/ContentTab"
+        android:layout_marginEnd="6dp"
+        android:text="@string/content_type_mods" />
+
+    <Button
+        android:id="@+id/tab_resourcepacks"
+        style="@style/ContentTab"
+        android:layout_marginEnd="6dp"
+        android:text="@string/content_type_resourcepacks" />
+
+    <Button
+        android:id="@+id/tab_shaders"
+        style="@style/ContentTab"
+        android:text="@string/content_type_shaders" />
+</LinearLayout>

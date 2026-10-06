@@ -54,6 +54,7 @@ public class MainMenuFragment extends Fragment {
         Button mInstallJarButton = view.findViewById(R.id.install_jar_button);
         Button mShareLogsButton = view.findViewById(R.id.share_logs_button);
         Button mOpenDirectoryButton = view.findViewById(R.id.open_files_button);
+        Button mModsButton = view.findViewById(R.id.mods_button);
 
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
@@ -71,11 +72,21 @@ public class MainMenuFragment extends Fragment {
 
         mOpenDirectoryButton.setOnClickListener((v)-> openGameDirectory(v.getContext()));
 
+        mModsButton.setOnClickListener((v)-> openInstanceContent());
+
 
         mNewsButton.setOnLongClickListener((v)->{
             Tools.swapFragment(requireActivity(), GamepadMapperFragment.class, GamepadMapperFragment.TAG, null);
             return true;
         });
+    }
+
+    private void openInstanceContent() {
+        if(Instances.loadSelectedInstance() == null) {
+            Toast.makeText(requireContext(), R.string.no_instance, Toast.LENGTH_LONG).show();
+            return;
+        }
+        Tools.swapFragment(requireActivity(), InstanceContentFragment.class, InstanceContentFragment.TAG, null);
     }
 
     private void openGameDirectory(Context context) {
