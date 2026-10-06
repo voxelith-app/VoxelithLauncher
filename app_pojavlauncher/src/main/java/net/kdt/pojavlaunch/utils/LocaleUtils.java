@@ -27,22 +27,22 @@ public class LocaleUtils extends ContextWrapper {
             PREF_FORCE_ENGLISH = DEFAULT_PREF.getBoolean("force_english", false);
         }
 
-        if(PREF_FORCE_ENGLISH){
-            Resources resources = context.getResources();
-            Configuration configuration = resources.getConfiguration();
+        // Voxelith usa pt-BR por padrão, independente do idioma do aparelho
+        Locale locale = PREF_FORCE_ENGLISH ? Locale.ENGLISH : new Locale("pt", "BR");
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
 
-            configuration.setLocale(Locale.ENGLISH);
-            Locale.setDefault(Locale.ENGLISH);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                LocaleList localeList = new LocaleList(Locale.ENGLISH);
-                LocaleList.setDefault(localeList);
-                configuration.setLocales(localeList);
-            }
+        configuration.setLocale(locale);
+        Locale.setDefault(locale);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            LocaleList localeList = new LocaleList(locale);
+            LocaleList.setDefault(localeList);
+            configuration.setLocales(localeList);
+        }
 
-            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1){
-                context = context.createConfigurationContext(configuration);
-            }
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1){
+            context = context.createConfigurationContext(configuration);
         }
 
         return new LocaleUtils(context);
