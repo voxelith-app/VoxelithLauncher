@@ -30,6 +30,11 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - applicationId: app.voxelith.launcher (debug: app.voxelith.launcher.debug).
 - Build: `./gradlew :app_pojavlauncher:assembleFullDebug`. O dono só tem celular durante a semana: o APK sai pelo GitHub Actions (aba Actions, artefato app-debug).
 
+## Interface
+- Visual igual ao launcher de PC: superfícies escuras (#16181C, #1D1F23, #27292E, #34363C, #42444A), cantos arredondados (8/12/16dp), botão principal em ciano com texto preto, demais botões cinza.
+- Tudo feito com shapes XML e vetores, sem imagens nem bibliotecas novas, para o app continuar leve.
+- Ícones são do Lucide (licença ISC), os mesmos do launcher de PC, convertidos para vector drawable mantendo os nomes antigos (ic_px_*).
+
 ## Estilo
 - Commits curtos, em minúsculas, no imperativo, em português.
 - Sem assinatura de IA em commits, PRs, README ou código.
@@ -42,3 +47,4 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 
 ## Decisões
 - 2026-10-06: fork criado em voxelith-app/VoxelithLauncher a partir de MojoLauncher/MojoLauncher (branch v3_openjdk).
+- 2026-10-06: interface refeita no estilo do launcher de PC, mantendo todas as funções.

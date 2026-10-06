@@ -48,4 +48,5 @@ Distribuído sob a [GNU LGPLv3](./LICENSE), a mesma licença do MojoLauncher e d
 - [Authlib-Injector](https://github.com/yushijinhun/authlib-injector): [AGPL-3.0](https://github.com/yushijinhun/authlib-injector/blob/develop/LICENSE)
 - [OpenAL Soft](https://github.com/kcat/openal-soft/): [GNU LGPL](https://github.com/kcat/openal-soft/blob/master/COPYING) e [PFFFT modificado](https://github.com/kcat/openal-soft/blob/master/LICENSE-pffft)
 - [oboe](https://github.com/google/oboe): [Apache 2.0](https://github.com/google/oboe/blob/main/LICENSE)
+- [Lucide](https://lucide.dev): [ISC](https://lucide.dev/license)
 - Avatares do Minecraft fornecidos pelo [Mineskin](https://mineskin.eu/).
