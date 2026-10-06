@@ -35,6 +35,12 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - Tudo feito com shapes XML e vetores, sem imagens nem bibliotecas novas, para o app continuar leve.
 - Ícones são do Lucide (licença ISC), os mesmos do launcher de PC, convertidos para vector drawable mantendo os nomes antigos (ic_px_*).
 
+## Mods, resource packs e shaders
+- Código em app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/mods e nos fragments InstanceContentFragment e ContentBrowserFragment.
+- Fonte única: API pública do Modrinth v2 (a mesma do launcher de PC). Filtra pelo loader e pela versão da instância e instala dependências obrigatórias.
+- Mod desativado = arquivo com sufixo .disabled, igual ao launcher de PC.
+- Zalith Launcher 2 (GPL-3.0, Kotlin/Compose) é só referência de funções. Não copiar código dele, para o app continuar LGPL e leve.
+
 ## Estilo
 - Commits curtos, em minúsculas, no imperativo, em português.
 - Sem assinatura de IA em commits, PRs, README ou código.
@@ -48,3 +54,4 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 ## Decisões
 - 2026-10-06: fork criado em voxelith-app/VoxelithLauncher a partir de MojoLauncher/MojoLauncher (branch v3_openjdk).
 - 2026-10-06: interface refeita no estilo do launcher de PC, mantendo todas as funções.
+- 2026-10-06: gerenciador de mods feito com código próprio em Java. Zalith e launcher de PC só como referência. Só Modrinth, sem CurseForge.
