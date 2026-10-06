@@ -1,9 +1,18 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="59dp"
-    android:viewportWidth="40"
-    android:viewportHeight="48">
-  <path
-      android:pathData="M4,0h4v8L4,8zM12,0h4v8h-4zM20,0h4v8h-4zM0,12h36v12h-8v4h-4L24,16L4,16v16h8v4L0,36zM32,16h-4v4h4zM28,32h4v4h-4v4h-4v4h-4v-4h-4v-4h4v4h4v-4h4z"
-      android:fillColor="@color/icon_outline_color"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lucide (https://lucide.dev), licença ISC -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="48dp" android:height="59dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:pathData="M12 20 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M12 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M17 20 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M17 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M2 12 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M2 17 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M2 7 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M20 12 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M20 17 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M20 7 h2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M7 20 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M7 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M6 4 h12 a2 2 0 0 1 2 2 v12 a2 2 0 0 1 -2 2 h-12 a2 2 0 0 1 -2 -2 v-12 a2 2 0 0 1 2 -2 Z" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M9 8 h6 a1 1 0 0 1 1 1 v6 a1 1 0 0 1 -1 1 h-6 a1 1 0 0 1 -1 -1 v-6 a1 1 0 0 1 1 -1 Z" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
 </vector>

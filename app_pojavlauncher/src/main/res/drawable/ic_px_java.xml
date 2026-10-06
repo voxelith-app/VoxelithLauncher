@@ -1,5 +1,8 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="120dp" android:viewportHeight="24" android:viewportWidth="24" android:width="120dp">
-      
-    <path android:fillColor="@color/icon_outline_color" android:pathData="M4,4h18v7h-4v5L4,16zM18,9h2L20,6h-2zM16,6L6,6v8h10zM19,20L3,20v-2h16z"/>
-    
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lucide (https://lucide.dev), licença ISC -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="120dp" android:height="120dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:pathData="M10 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M14 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M16 8 a1 1 0 0 1 1 1 v8 a4 4 0 0 1 -4 4 H7 a4 4 0 0 1 -4 -4 V9 a1 1 0 0 1 1 -1 h14 a4 4 0 1 1 0 8 h-1" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
+    <path android:pathData="M6 2 v2" android:strokeColor="@color/icon_outline_color" android:strokeWidth="2" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000"/>
 </vector>
