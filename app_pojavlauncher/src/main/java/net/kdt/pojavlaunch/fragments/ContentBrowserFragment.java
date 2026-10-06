@@ -266,7 +266,7 @@ public class ContentBrowserFragment extends Fragment {
                 mInstallingProjects.remove(hit.projectId);
                 if(!isAdded() || getView() == null) return;
                 if(done != null) {
-                    for(ModrinthModels.Version version : done) mInstalledProjects.add(version.projectId);
+                    for(ModrinthModels.Version installedVersion : done) mInstalledProjects.add(installedVersion.projectId);
                     int dependencies = done.size() - 1;
                     String message = dependencies > 0
                             ? getString(R.string.content_installed_with_deps, hit.title, dependencies)
