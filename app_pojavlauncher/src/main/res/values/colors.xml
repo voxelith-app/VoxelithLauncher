@@ -3,7 +3,13 @@
     <color name="control_button_color">#4CC4C4C4</color>
     <color name="control_button_pressed_color">#4D000000</color>
 
-    <color name="minebutton_color">#91dffb</color>
+    <color name="voxelith_cyan">#14C8EC</color>
+    <color name="voxelith_cyan_light">#3DE0FF</color>
+    <color name="voxelith_cyan_dark">#0098B8</color>
+    <color name="voxelith_bg_dark">#0B1A22</color>
+    <color name="voxelith_bg_light">#E6FAFF</color>
+
+    <color name="minebutton_color">@color/voxelith_cyan_light</color>
     <color name="minebutton_secondary">#2a2a2a</color>
     <color name="background_app">#181818</color>
     <color name="divider">@color/background_overlay</color>
