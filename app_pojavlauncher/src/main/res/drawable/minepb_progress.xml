@@ -3,12 +3,23 @@
     <item>
         <shape>
             <solid android:color="@color/minebutton_secondary"/>
+            <corners android:radius="2dp"/>
         </shape>
     </item>
-    <item android:id="@android:id/progress">
-        <clip android:clipOrientation="horizontal" android:gravity="left" android:drawable="@color/minebutton_color"/>
-    </item>
     <item android:id="@android:id/secondaryProgress">
-        <clip android:clipOrientation="horizontal" android:gravity="left" android:drawable="@color/minebutton_color"/>
+        <clip android:clipOrientation="horizontal" android:gravity="left">
+            <shape>
+                <solid android:color="@color/voxelith_cyan_highlight"/>
+                <corners android:radius="2dp"/>
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip android:clipOrientation="horizontal" android:gravity="left">
+            <shape>
+                <solid android:color="@color/minebutton_color"/>
+                <corners android:radius="2dp"/>
+            </shape>
+        </clip>
     </item>
 </layer-list>

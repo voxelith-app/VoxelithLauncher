@@ -16,6 +16,42 @@
         <item name="switchStyle">@style/MojoLauncher.Switch</item>
         <item name="buttonStyle">@style/MojoLauncher.Button</item>
         <item name="android:buttonStyleToggle">@style/MojoLauncher.Button.Toggle</item>
+        <item name="android:windowBackground">@color/surface_1</item>
+        <item name="colorPrimary">@color/surface_2</item>
+        <item name="colorPrimaryDark">@color/surface_1</item>
+        <item name="colorAccent">@color/voxelith_cyan_light</item>
+        <item name="colorControlActivated">@color/voxelith_cyan_light</item>
+        <item name="colorControlNormal">@color/text_tertiary</item>
+        <item name="colorControlHighlight">#22FFFFFF</item>
+        <item name="colorButtonNormal">@color/surface_4</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/text_default</item>
+        <item name="android:textColorHint">@color/text_tertiary</item>
+        <item name="android:colorBackground">@color/surface_1</item>
+        <item name="alertDialogTheme">@style/Voxelith.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Voxelith.Dialog</item>
+        <item name="android:popupBackground">@drawable/menu_background</item>
+        <item name="android:dropDownListViewStyle">@style/Voxelith.DropDownList</item>
+    </style>
+
+    <style name="Voxelith.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+        <item name="colorAccent">@color/voxelith_cyan_light</item>
+        <item name="colorControlActivated">@color/voxelith_cyan_light</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/text_default</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Voxelith.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Voxelith.Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Voxelith.Dialog.Button</item>
+    </style>
+
+    <style name="Voxelith.Dialog.Button" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/voxelith_cyan_light</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Voxelith.DropDownList" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@null</item>
     </style>
 
     <style name="MojoLauncher.AppTheme" parent="MojoLauncher"/>
@@ -52,11 +88,15 @@
     </style>
 
     <style name="LauncherMenuButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">@drawable/background_menu_card</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="LauncherMenuButton.Universal" parent="LauncherMenuButton">
-        <item name="android:layout_height">@dimen/_66sdp</item>
+        <item name="android:layout_height">@dimen/_52sdp</item>
+        <item name="android:layout_margin">6dp</item>
     </style>
 
     <style name="ThickDivider">

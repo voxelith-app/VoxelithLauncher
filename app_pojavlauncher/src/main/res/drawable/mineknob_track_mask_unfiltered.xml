@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bitmap android:src="@drawable/mineknob_track_mask" android:filter="false"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/>
+    <corners android:radius="12dp"/>
+    <size android:width="40dp" android:height="24dp"/>
+</shape>

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true">
-        <bitmap android:src="@drawable/mineknob_on" android:filter="false"/>
+        <inset android:inset="4dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/accent_contrast"/>
+                <size android:width="16dp" android:height="16dp"/>
+            </shape>
+        </inset>
     </item>
     <item>
-        <bitmap android:src="@drawable/mineknob_off" android:filter="false"/>
+        <inset android:inset="4dp">
+            <shape android:shape="oval">
+                <solid android:color="@color/text_default"/>
+                <size android:width="16dp" android:height="16dp"/>
+            </shape>
+        </inset>
     </item>
 </selector>
