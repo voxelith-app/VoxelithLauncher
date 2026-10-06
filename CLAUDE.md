@@ -55,3 +55,4 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-06: fork criado em voxelith-app/VoxelithLauncher a partir de MojoLauncher/MojoLauncher (branch v3_openjdk).
 - 2026-10-06: interface refeita no estilo do launcher de PC, mantendo todas as funções.
 - 2026-10-06: gerenciador de mods feito com código próprio em Java. Zalith e launcher de PC só como referência. Só Modrinth, sem CurseForge.
+- 2026-10-06: botão Otimizar (tela de Mods) instala pacote de desempenho (Sodium/Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, MoreCulling, Dynamic FPS) e aplica opções leves no options.txt. Alvo: Samsung A05s (Snapdragon 680, Adreno 610, 4/6 GB). Renderizador padrão continua GL4ES; com Sodium o app troca sozinho para LTW.
