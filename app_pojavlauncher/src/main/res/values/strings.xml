@@ -565,4 +565,9 @@
     <string name="content_target_vanilla">Vanilla %1$s</string>
     <string name="content_target_unknown">Unknown version</string>
     <string name="content_busy">Wait for the current download to finish</string>
+    <string name="content_optimize">Optimize</string>
+    <string name="content_optimize_title">Optimize for phones</string>
+    <string name="content_optimize_message">Installs performance mods that work with this instance (Sodium or Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, Dynamic FPS) and switches to light video settings: render distance 6, fast graphics, no clouds and no entity shadows. You can change everything later in the game.</string>
+    <string name="content_optimize_done">%1$d performance mods installed and light settings applied</string>
+    <string name="content_optimize_nothing">Performance mods were already installed. Light settings applied.</string>
 </resources>

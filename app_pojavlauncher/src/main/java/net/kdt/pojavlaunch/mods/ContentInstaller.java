@@ -42,15 +42,50 @@ public class ContentInstaller extends Downloader {
     public List<ModrinthModels.Version> install(String projectId, ContentType type, Set<String> installedProjectIds) throws IOException, InterruptedException {
         ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.content_install_resolving);
         try {
-            List<ModrinthModels.Version> versions = resolve(projectId, type, installedProjectIds);
-            ArrayList<TaskMetadata> downloads = new ArrayList<>(versions.size());
-            File folder = mTarget.getFolder(type);
-            for(ModrinthModels.Version version : versions) downloads.add(toTask(version, folder));
-            runDownloads(downloads);
+            ModrinthModels.Version version = mClient.getCompatibleVersion(projectId, type, mTarget);
+            if(version == null) throw new IOException(new NoCompatibleVersionException());
+            List<ModrinthModels.Version> roots = new ArrayList<>(1);
+            roots.add(version);
+            List<ModrinthModels.Version> versions = resolve(roots, type, installedProjectIds);
+            download(versions, type);
             return versions;
         }finally {
             ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
         }
+    }
+
+    /**
+     * Installs several projects at once. Each group lists alternatives in order of preference
+     * (e.g. Sodium, then Embeddium); the first one with a compatible version is used and
+     * groups without any compatible project are skipped.
+     * @return the versions that were installed, dependencies included
+     */
+    public List<ModrinthModels.Version> installGroups(List<String[]> groups, ContentType type, Set<String> installedProjectIds) throws IOException, InterruptedException {
+        ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.content_install_resolving);
+        try {
+            List<ModrinthModels.Version> roots = new ArrayList<>();
+            for(String[] alternatives : groups) {
+                for(String project : alternatives) {
+                    ModrinthModels.Version version = mClient.getCompatibleVersion(project, type, mTarget);
+                    if(version == null) continue;
+                    roots.add(version);
+                    break;
+                }
+            }
+            List<ModrinthModels.Version> versions = resolve(roots, type, installedProjectIds);
+            download(versions, type);
+            return versions;
+        }finally {
+            ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
+        }
+    }
+
+    private void download(List<ModrinthModels.Version> versions, ContentType type) throws IOException, InterruptedException {
+        if(versions.isEmpty()) return;
+        ArrayList<TaskMetadata> downloads = new ArrayList<>(versions.size());
+        File folder = mTarget.getFolder(type);
+        for(ModrinthModels.Version version : versions) downloads.add(toTask(version, folder));
+        runDownloads(downloads);
     }
 
     /** Replaces an installed file with its newer version, keeping it disabled if it was. */
@@ -73,32 +108,26 @@ public class ContentInstaller extends Downloader {
         }
     }
 
-    private List<ModrinthModels.Version> resolve(String projectId, ContentType type, Set<String> installedProjectIds) throws IOException {
+    /** Adds required dependencies and drops anything the instance already has. */
+    private List<ModrinthModels.Version> resolve(List<ModrinthModels.Version> roots, ContentType type, Set<String> installedProjectIds) throws IOException {
         List<ModrinthModels.Version> result = new ArrayList<>();
         Set<String> seen = new HashSet<>(installedProjectIds);
-        seen.remove(projectId);
-        Deque<String[]> queue = new ArrayDeque<>();
-        queue.add(new String[]{projectId, null});
-        while(!queue.isEmpty() && result.size() < MAX_DEPENDENCIES) {
-            String[] entry = queue.poll();
-            String currentProject = entry[0];
-            if(currentProject != null && !seen.add(currentProject)) continue;
-            ModrinthModels.Version version = entry[1] != null
-                    ? mClient.getVersion(entry[1])
-                    : mClient.getCompatibleVersion(currentProject, type, mTarget);
-            if(version == null) {
-                if(result.isEmpty()) throw new IOException(new NoCompatibleVersionException());
-                continue;
-            }
-            if(currentProject == null && !seen.add(version.projectId)) continue;
+        Deque<ModrinthModels.Version> pending = new ArrayDeque<>(roots);
+        while(!pending.isEmpty() && result.size() < MAX_DEPENDENCIES) {
+            ModrinthModels.Version version = pending.poll();
+            if(!seen.add(version.projectId)) continue;
             result.add(version);
             if(type != ContentType.MOD || version.dependencies == null) continue;
             for(ModrinthModels.Dependency dependency : version.dependencies) {
                 if(!"required".equals(dependency.dependencyType)) continue;
-                if(dependency.projectId != null && seen.contains(dependency.projectId)) continue;
-                // A pinned version may target another game version, so only trust it without a project id
-                if(dependency.projectId != null) queue.add(new String[]{dependency.projectId, null});
-                else if(dependency.versionId != null) queue.add(new String[]{null, dependency.versionId});
+                if(dependency.projectId != null) {
+                    if(seen.contains(dependency.projectId)) continue;
+                    // A pinned version may target another game version, so look up a compatible one
+                    ModrinthModels.Version dependencyVersion = mClient.getCompatibleVersion(dependency.projectId, type, mTarget);
+                    if(dependencyVersion != null) pending.add(dependencyVersion);
+                } else if(dependency.versionId != null) {
+                    pending.add(mClient.getVersion(dependency.versionId));
+                }
             }
         }
         return result;
