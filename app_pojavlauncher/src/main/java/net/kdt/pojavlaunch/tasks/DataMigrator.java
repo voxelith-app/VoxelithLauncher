@@ -88,13 +88,14 @@ public class DataMigrator {
     }
 
     /**
-     * Migrate data from other MojoLauncher installations.
+     * Migrate data from other Voxelith or MojoLauncher installations.
     */
     public void migrateData(){
         String authority = uri.getAuthority();
         if(authority == null) return;
         // Shouldn't allow importing from any non-Mojo app
-        if(!authority.contains(activity.getString(R.string.group_id))) {
+        if(!authority.contains(activity.getString(R.string.group_id))
+                && !authority.contains(activity.getString(R.string.legacy_group_id))) {
             Toast.makeText(activity, R.string.migration_progress_foreign, Toast.LENGTH_LONG).show();
             return;
         }

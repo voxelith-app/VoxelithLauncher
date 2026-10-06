@@ -80,14 +80,15 @@ android {
     }
 
     defaultConfig {
-        applicationId "git.artdeell.mjlaunch"
+        applicationId "app.voxelith.launcher"
         minSdkVersion 21
         targetSdkVersion 36
         versionCode getDateSeconds()
         versionName getVersionName()
         multiDexEnabled false //important
         resValue 'string', 'curseforge_api_key', getCFApiKey()
-        resValue 'string', 'group_id', 'git.artdeell'
+        resValue 'string', 'group_id', 'app.voxelith'
+        resValue 'string', 'legacy_group_id', 'git.artdeell'
     }
 
     flavorDimensions  = ["runtime"]
@@ -110,8 +111,8 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
-            resValue 'string', 'application_package', 'git.artdeell.mjlaunch.debug'
-            resValue 'string', 'storageProviderAuthorities', 'git.artdeell.mjlaunch.scoped.gamefolder.debug'
+            resValue 'string', 'application_package', 'app.voxelith.launcher.debug'
+            resValue 'string', 'storageProviderAuthorities', 'app.voxelith.launcher.scoped.gamefolder.debug'
         }
         proguard {
             initWith debug
@@ -131,8 +132,8 @@ android {
             // defaultConfig already set
             // multiDexEnabled = true
             // debuggable = true
-            resValue 'string', 'storageProviderAuthorities', 'git.artdeell.mjlaunch.scoped.gamefolder'
-            resValue 'string', 'application_package', 'git.artdeell.mjlaunch'
+            resValue 'string', 'storageProviderAuthorities', 'app.voxelith.launcher.scoped.gamefolder'
+            resValue 'string', 'application_package', 'app.voxelith.launcher'
         }
         gplay {
             initWith release
