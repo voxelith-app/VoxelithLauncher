@@ -31,10 +31,11 @@
 				android:drawableStart="@drawable/ic_px_book"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toStartOf="@id/social_divider" />
+				app:layout_constraintEnd_toEndOf="parent" />
 			<View
 				android:id="@+id/social_divider"
 				style="@style/LauncherFragment_Divider"
+				android:visibility="gone"
 				android:layout_marginVertical="@dimen/padding_large"
 				app:layout_constraintTop_toTopOf="parent"
 				app:layout_constraintStart_toStartOf="@id/center_guideline"
@@ -43,6 +44,7 @@
 			<com.kdt.mcgui.LauncherMenuButton
 				android:id="@+id/social_media_button"
 				style="@style/LauncherMenuButton.Universal"
+				android:visibility="gone"
 				android:layout_width="0dp"
 				android:text="@string/mcl_button_social_media"
 				android:drawableStart="@drawable/ic_social_media"
