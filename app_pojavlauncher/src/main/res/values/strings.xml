@@ -574,4 +574,9 @@
     <string name="content_versions_title">Versions of %1$s</string>
     <string name="content_update_all">Update all</string>
     <string name="content_updated_all">%1$d updated</string>
+    <string name="update_available_title">Update available</string>
+    <string name="update_available_message">A new version of Voxelith Launcher is available. Download it and install it over this one, your instances and accounts are kept.</string>
+    <string name="update_available_download">Download</string>
+    <string name="update_available_later">Later</string>
+    <string name="update_available_ignore">Skip this version</string>
 </resources>
