@@ -1,6 +1,7 @@
 package net.kdt.pojavlaunch.prefs.screens;
 
 import android.Manifest;
+import android.content.Context;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class LauncherPreferenceMiscellaneousFragment extends LauncherPreferenceF
             return true;
         });
         setupCacheClearPreference();
+        setupImageCacheClearPreference();
         setupMicrophoneRequestPreference();
         updateVisibility();
     }
@@ -97,6 +99,18 @@ public class LauncherPreferenceMiscellaneousFragment extends LauncherPreferenceF
                     Toast.makeText(getLauncherActivity(), R.string.preference_metadata_clear_complete, Toast.LENGTH_LONG).show();
                     updateVisibility();
                 });
+            });
+            return true;
+        });
+    }
+
+    private void setupImageCacheClearPreference() {
+        requirePreference("clearImageCache").setOnPreferenceClickListener(preference -> {
+            Context context = requireContext().getApplicationContext();
+            PojavApplication.sExecutorService.submit(() -> {
+                FileUtils.deleteQuietly(new File(Tools.DIR_CACHE, "mod_icons"));
+                FileUtils.deleteQuietly(new File(Tools.DIR_CACHE, "mod_gallery"));
+                Tools.runOnUiThread(() -> Toast.makeText(context, R.string.preference_image_cache_cleared, Toast.LENGTH_SHORT).show());
             });
             return true;
         });

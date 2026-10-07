@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <net.kdt.pojavlaunch.prefs.BackButtonPreference/>
+
+    <PreferenceCategory android:title="@string/preference_about_title">
+
+        <Preference
+            android:icon="@drawable/ic_info"
+            android:key="aboutVersion"
+            android:title="@string/about_version"/>
+
+        <Preference
+            android:icon="@drawable/ic_update"
+            android:key="aboutCheckUpdate"
+            android:summary="@string/about_check_update_summary"
+            android:title="@string/about_check_update"/>
+
+        <Preference
+            android:icon="@drawable/ic_users"
+            android:key="aboutOwners"
+            android:selectable="false"
+            android:summary="@string/about_owners_summary"
+            android:title="@string/about_owners"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about_category_code">
+
+        <Preference
+            android:icon="@drawable/ic_code"
+            android:key="aboutSource"
+            android:summary="github.com/voxelith-app/VoxelithLauncher"
+            android:title="@string/about_source"/>
+
+        <Preference
+            android:icon="@drawable/ic_external"
+            android:key="aboutPcLauncher"
+            android:summary="github.com/voxelith-app/code"
+            android:title="@string/about_pc_launcher"/>
+
+        <Preference
+            android:icon="@drawable/ic_license"
+            android:key="aboutLicense"
+            android:summary="@string/about_license_summary"
+            android:title="@string/about_license"/>
+    </PreferenceCategory>
+</PreferenceScreen>

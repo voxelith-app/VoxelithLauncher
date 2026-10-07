@@ -2,6 +2,7 @@ package net.kdt.pojavlaunch.utils;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -34,26 +35,51 @@ public final class UpdateChecker {
 
     private UpdateChecker() {}
 
+    public static final String PREF_CHECK_UPDATES = "checkUpdates";
+
     public static void checkAsync(Activity activity) {
+        SharedPreferences prefs = LauncherPreferences.DEFAULT_PREF;
+        if(prefs != null && !prefs.getBoolean(PREF_CHECK_UPDATES, true)) return;
+        check(activity, false);
+    }
+
+    /** Checks right away and always tells the result, even when there is nothing new. */
+    public static void checkNow(Activity activity) {
+        check(activity, true);
+    }
+
+    private static void check(Activity activity, boolean manual) {
         String installedCommit = activity.getString(R.string.voxelith_commit);
-        if(installedCommit.isEmpty()) return;
+        if(installedCommit.isEmpty()) {
+            if(manual) toast(activity, R.string.update_check_local_build);
+            return;
+        }
         PojavApplication.sExecutorService.execute(() -> {
             try {
                 JsonObject release = fetchRelease();
-                if(release == null) return;
+                if(release == null) throw new Exception("no release");
                 String body = release.has("body") && !release.get("body").isJsonNull() ? release.get("body").getAsString() : "";
                 Matcher matcher = COMMIT_PATTERN.matcher(body);
-                if(!matcher.find()) return;
-                String latestCommit = matcher.group(1);
-                if(latestCommit.equals(installedCommit)) return;
-                SharedPreferences prefs = LauncherPreferences.DEFAULT_PREF;
-                if(prefs != null && latestCommit.equals(prefs.getString(PREF_IGNORED_COMMIT, null))) return;
                 String downloadUrl = findApkUrl(release);
-                if(downloadUrl == null) return;
+                if(!matcher.find() || downloadUrl == null) throw new Exception("release without build");
+                String latestCommit = matcher.group(1);
+                if(latestCommit.equals(installedCommit)) {
+                    if(manual) toast(activity, R.string.update_check_latest);
+                    return;
+                }
+                SharedPreferences prefs = LauncherPreferences.DEFAULT_PREF;
+                if(!manual && prefs != null && latestCommit.equals(prefs.getString(PREF_IGNORED_COMMIT, null))) return;
                 Tools.runOnUiThread(() -> showDialog(activity, latestCommit, downloadUrl));
-            }catch (Exception ignored) {
+            }catch (Exception e) {
                 // No internet or GitHub unavailable: try again on the next start
+                if(manual) toast(activity, R.string.update_check_failed);
             }
+        });
+    }
+
+    private static void toast(Activity activity, int message) {
+        Tools.runOnUiThread(() -> {
+            if(!activity.isFinishing()) Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
         });
     }
 

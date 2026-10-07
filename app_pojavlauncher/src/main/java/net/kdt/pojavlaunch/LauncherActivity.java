@@ -224,7 +224,10 @@ public class LauncherActivity extends BaseActivity {
         mProgressLayout.observe(ProgressLayout.INSTANCE_INSTALL);
         mProgressLayout.observe(ProgressLayout.DATA_MIGRATION);
 
-        if(savedInstanceState == null) UpdateChecker.checkAsync(this);
+        if(savedInstanceState == null) {
+            UpdateChecker.checkAsync(this);
+            openStartTab();
+        }
     }
 
     @Override
@@ -386,6 +389,14 @@ public class LauncherActivity extends BaseActivity {
             mTabs[i] = tab;
         }
         selectTab(0);
+    }
+
+    private void openStartTab() {
+        int tab = 0;
+        try {
+            tab = Integer.parseInt(LauncherPreferences.DEFAULT_PREF.getString("startTab", "0"));
+        }catch (RuntimeException ignored) {}
+        if(tab > 0 && tab < mTabs.length) openTab(tab);
     }
 
     private void selectTab(int index) {

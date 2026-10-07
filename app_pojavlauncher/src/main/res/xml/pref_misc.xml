@@ -46,13 +46,13 @@
         <Preference
             android:key="clearMetadataCache"
             android:title="@string/preference_metadata_clear"
+            android:icon="@drawable/ic_px_trash"
             android:summary="@string/preference_metadata_clear_summary" />
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:icon="@drawable/ic_px_memory_warning"
-            android:key="showMemoryWarning"
-            android:title="@string/preference_show_memory_warning_title"
-            android:summary="@string/preference_show_memory_warning_summary"/>
+        <Preference
+            android:key="clearImageCache"
+            android:icon="@drawable/ic_px_trash"
+            android:title="@string/preference_image_cache_clear"
+            android:summary="@string/preference_image_cache_clear_summary" />
 
     </PreferenceCategory>
 

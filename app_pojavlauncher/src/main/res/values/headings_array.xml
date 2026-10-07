@@ -37,4 +37,18 @@
         <item>bmclapi</item>
     </string-array>
 
+    <string-array name="start_tab_names">
+        <item>@string/nav_home</item>
+        <item>@string/nav_mods</item>
+        <item>@string/nav_skins</item>
+        <item>@string/nav_servers</item>
+        <item>@string/nav_hosting</item>
+    </string-array>
+    <string-array name="start_tab_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>
