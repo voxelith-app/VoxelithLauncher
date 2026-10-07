@@ -79,4 +79,5 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-07: aba Hosting divulga a BlackHosting. Preços tirados de buscas porque o site não abriu daqui: o dono precisa conferir.
 - 2026-10-07: Otimizar também instala BadOptimizations e desliga o desfoque dos menus.
 - 2026-10-07: adicionados leitor de crash, mundos com backup, tempo de jogo e checagem de mods antes de jogar.
+- 2026-10-07: engrenagem do menu no jogo vem desligada (Configurações > Controles > Mostrar engrenagem no jogo). O controle padrão ganhou um botão Menu, inclusive em instalações antigas. No editor de controles a engrenagem continua sempre visível e o menu tem Importar controles.
 - 2026-10-07: teste num Galaxy A23 4G (Snapdragon 680 e Adreno 610, o mesmo chip do A05s), 1.21.1 Fabric com botão Otimizar: Sodium 0.6.13 rodando no LTW, distância 6, perto de 60 FPS (p99.5 em 49), 1,1 GB de memória com 38% em uso.
