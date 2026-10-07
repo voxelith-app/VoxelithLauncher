@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/skins_title"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/skins_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_tertiary"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/background_menu_card"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <FrameLayout
+                android:id="@+id/skins_preview_frame"
+                android:layout_width="120dp"
+                android:layout_height="240dp"
+                android:background="@drawable/background_hosting_hero"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:id="@+id/skins_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/skins_title"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter" />
+
+                <ProgressBar
+                    android:id="@+id/skins_loading"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/voxelith_cyan_light" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/skins_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/skins_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingMultiplier="1.15"
+                    android:textColor="@color/text_default"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/skins_flip_hint"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/skins_model"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/skins_model"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/skins_model_classic"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_flat_toggle"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/skins_model_classic"
+                android:textColor="@color/primary_text" />
+
+            <RadioButton
+                android:id="@+id/skins_model_slim"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_flat_toggle"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/skins_model_slim"
+                android:textColor="@color/primary_text" />
+        </RadioGroup>
+
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/skins_upload"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_brand"
+            android:drawableStart="@drawable/ic_upload"
+            android:drawableTint="@color/button_brand_text"
+            android:paddingHorizontal="16dp"
+            android:text="@string/skins_upload"
+            android:textColor="@color/button_brand_text" />
+
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/skins_loader"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="16dp"
+            android:text="@string/skins_install_loader"
+            android:visibility="gone" />
+
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/skins_site"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:drawableEnd="@drawable/ic_external"
+            android:paddingHorizontal="16dp"
+            android:text="@string/skins_open_elyby"
+            android:visibility="gone" />
+
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/skins_reset"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="16dp"
+            android:text="@string/skins_reset" />
+    </LinearLayout>
+</ScrollView>
