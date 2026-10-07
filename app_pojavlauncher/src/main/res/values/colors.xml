@@ -18,6 +18,8 @@
     <color name="text_default">#B0BAC5</color>
     <color name="text_tertiary">#96A2B0</color>
     <color name="accent_contrast">#000000</color>
+    <!-- Warning state: modpack too heavy for a phone -->
+    <color name="modpack_heavy">#FFB547</color>
 
     <color name="minebutton_color">@color/voxelith_cyan_light</color>
     <color name="minebutton_secondary">@color/surface_4</color>

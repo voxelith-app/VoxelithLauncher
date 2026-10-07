@@ -24,6 +24,7 @@ public final class ModrinthModels {
         public String iconUrl;
         public long downloads;
         public String projectType;
+        public String[] categories;
     }
 
     public static class Project {

@@ -47,6 +47,30 @@ public class ModrinthClient {
         return mGson.fromJson(request(url, null), ModrinthModels.SearchResponse.class);
     }
 
+    /** Modpacks for any version. lightOnly keeps the ones tagged as optimization or lightweight. */
+    public ModrinthModels.SearchResponse searchModpacks(String query, int offset, boolean lightOnly) throws IOException {
+        JsonArray facets = new JsonArray();
+        facets.add(facet("project_type:modpack"));
+        if(lightOnly) {
+            JsonArray light = new JsonArray();
+            light.add("categories:optimization");
+            light.add("categories:lightweight");
+            facets.add(light);
+        }
+        String url = BASE_URL + "search?limit=" + PAGE_SIZE
+                + "&offset=" + offset
+                + "&index=" + (query.isEmpty() ? "downloads" : "relevance")
+                + "&query=" + encode(query)
+                + "&facets=" + encode(facets.toString());
+        return mGson.fromJson(request(url, null), ModrinthModels.SearchResponse.class);
+    }
+
+    /** Every version of a project, newest first, without changelogs. */
+    public ModrinthModels.Version[] getAllVersions(String projectId) throws IOException {
+        String url = BASE_URL + "project/" + encode(projectId) + "/version?include_changelog=false";
+        ModrinthModels.Version[] versions = mGson.fromJson(request(url, null), ModrinthModels.Version[].class);
+        return versions == null ? new ModrinthModels.Version[0] : versions;
+    }
 
     /** Every version of a project that matches the target, newest first. */
     public ModrinthModels.Version[] getCompatibleVersions(String projectId, ContentType type, ContentTarget target) throws IOException {
