@@ -45,6 +45,12 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - Mundos (botão no Início): lista os saves da instância lendo o level.dat, entra direto no mundo (--quickPlaySingleplayer, 1.20+), backup em zip em backups/<instância>, restaurar e importar zip sem sobrescrever mundo existente.
 - Tempo de jogo: o processo do jogo grava voxelith_session.json e toca o arquivo a cada minuto; ao sair soma em voxelith_playtime.json. Sessão que morreu sem sair é contada até o último toque.
 - Checagem antes de jogar (ModCheck, desliga em Configurações): mod de outro loader, duplicado, dependência faltando ou desativada, versão do Minecraft errada e pares que brigam (Sodium/Embeddium/Rubidium/OptiFine). Na dúvida não avisa.
+- Modpacks (botão no Início e no criar instância): busca do Modrinth com filtro "Só leves" (categorias optimization/lightweight). O peso vem do número de dependências da versão (até 40 mods leve, até 120 médio). Instala pelo ModpackInstaller antigo e pode aplicar o vídeo leve. O SearchModFragment antigo (com CurseForge) não é mais usado.
+- Memória automática (perf/MemoryAdvisor, ligada por padrão): base pela versão (640 a 1152 MB) + 8 MB por mod + 256 com shaders, limitada a metade da RAM. Só vale no processo do jogo; o valor salvo do controle deslizante não muda.
+- Economia de bateria (perf/BatterySaver): 30 FPS e vídeo leve no options.txt; os valores do jogador ficam em voxelith_battery_backup.txt e voltam ao desligar. No Android 10+ o jogo avisa quando o celular esquenta.
+- Prints: grade com miniaturas RGB_565 e LruCache, compartilhar e apagar.
+- Backup de instância (InstanceBackup): zip com instance/ e o json da versão em versions/. Importar sempre cria instância nova e sem pasta compartilhada. Forge e NeoForge podem precisar reinstalar o loader no outro celular.
+- Boas-vindas (WelcomeFragment): só na primeira instalação sem conta; dá para rever em Sobre.
 - Leitor de crash (ExitActivity + CrashAnalyzer): lê o latestlog.txt e o crash report da sessão e explica a causa (memória, Java, dependência, mod culpado, renderizador), com botão para desativar o mod ou abrir a tela certa.
 
 ## Mods, resource packs e shaders
@@ -80,4 +86,5 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-07: Otimizar também instala BadOptimizations e desliga o desfoque dos menus.
 - 2026-10-07: adicionados leitor de crash, mundos com backup, tempo de jogo e checagem de mods antes de jogar.
 - 2026-10-07: engrenagem do menu no jogo vem desligada (Configurações > Controles > Mostrar engrenagem no jogo). O controle padrão ganhou um botão Menu, inclusive em instalações antigas. No editor de controles a engrenagem continua sempre visível e o menu tem Importar controles.
+- 2026-10-07: adicionados modpacks com aviso de peso, memória automática, economia de bateria, galeria de prints, backup de instância e tela de boas-vindas.
 - 2026-10-07: teste num Galaxy A23 4G (Snapdragon 680 e Adreno 610, o mesmo chip do A05s), 1.21.1 Fabric com botão Otimizar: Sodium 0.6.13 rodando no LTW, distância 6, perto de 60 FPS (p99.5 em 49), 1,1 GB de memória com 38% em uso.
