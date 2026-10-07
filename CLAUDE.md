@@ -52,6 +52,9 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - Builds de release e Google Play usam as chaves do Mojo (mojo_*.jks). Criar chaves próprias antes de publicar.
 - O workflow baixa LTW e Mesa de repositórios do MojoLauncher. Conferir se o APK funciona sem eles ou se precisa fazer fork desses também.
 
+- F3 com texto minúsculo só na 26.3. Na 1.21.1 com Fabric, Sodium e LTW (Adreno 610) o F3 fica normal. Suspeita: LTW com a 26.x. Investigar nos issues do MojoLauncher/LTW.
+- A linha "Display" do F3 mostra "(MojoLauncher)": é o GL_VENDOR da biblioteca LTW, que vem pronta do repositório MojoLauncher/LTW. Trocar exige fork e build próprio do LTW.
+
 ## Decisões
 - 2026-10-06: fork criado em voxelith-app/VoxelithLauncher a partir de MojoLauncher/MojoLauncher (branch v3_openjdk).
 - 2026-10-06: interface refeita no estilo do launcher de PC, mantendo todas as funções.
@@ -59,3 +62,4 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-06: botão Otimizar (tela de Mods) instala pacote de desempenho (Sodium/Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, MoreCulling, Dynamic FPS) e aplica opções leves no options.txt. Alvo: Samsung A05s (Snapdragon 680, Adreno 610, 4/6 GB). Renderizador padrão continua GL4ES; com Sodium o app troca sozinho para LTW.
 - 2026-10-07: suporte a conta pirata mantido (conta local e Ely.by). Conta local não exige conta Microsoft.
 - 2026-10-07: release fixa no GitHub, aviso de atualização no app e tela de detalhes do mod (descrição, até 4 imagens reduzidas e novidades da versão).
+- 2026-10-07: teste no Adreno 610, 1.21.1 Fabric com botão Otimizar: Sodium 0.6.13 rodando no LTW, distância 6, perto de 60 FPS (p99.5 em 49), 1,1 GB de memória com 38% em uso.
