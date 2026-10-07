@@ -11,6 +11,9 @@ import androidx.preference.EditTextPreference;
 
 import git.artdeell.mojo.R;
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.instances.Instance;
+import net.kdt.pojavlaunch.instances.Instances;
+import net.kdt.pojavlaunch.perf.MemoryAdvisor;
 import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension;
 import net.kdt.pojavlaunch.multirt.MultiRTConfigDialog;
 import net.kdt.pojavlaunch.prefs.CustomSeekBarPreference;
@@ -41,6 +44,12 @@ public class LauncherPreferenceJavaFragment extends LauncherPreferenceFragment {
         memorySeekbar.setMaxKeepIncrement(maxRAM);
         memorySeekbar.setValue(ramAllocation);
         memorySeekbar.setSuffix(" MB");
+
+        Instance instance = Instances.loadSelectedInstance();
+        if(instance != null) {
+            int recommended = MemoryAdvisor.recommend(requireContext(), instance);
+            requirePreference("autoRam").setSummary(getString(R.string.preference_auto_ram_summary, recommended, instance.name));
+        }
 
         EditTextPreference editJVMArgs = findPreference("javaArgs");
         if (editJVMArgs != null) {

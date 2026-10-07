@@ -20,7 +20,16 @@
             android:summary="@string/mcl_setting_subtitle_javaargs"
             android:title="@string/mcl_setting_title_javaargs" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:icon="@drawable/ic_px_ram"
+            android:key="autoRam"
+            android:summary="@string/preference_auto_ram_description"
+            android:title="@string/preference_auto_ram_title" />
+
         <net.kdt.pojavlaunch.prefs.CustomSeekBarPreference
+            android:dependency="autoRam"
             android:key="allocation"
             android:icon="@drawable/ic_px_ram"
             android:summary="@string/mcl_memory_allocation_subtitle"

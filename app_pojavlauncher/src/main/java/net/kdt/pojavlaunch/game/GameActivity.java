@@ -19,6 +19,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.PowerManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -148,7 +149,8 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
 
         // Set the sustained performance mode for available APIs
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            getWindow().setSustainedPerformanceMode(PREF_SUSTAINED_PERFORMANCE);
+            getWindow().setSustainedPerformanceMode(PREF_SUSTAINED_PERFORMANCE || LauncherPreferences.PREF_BATTERY_SAVER);
+        watchTemperature();
 
         // This is required on Android 10 for the insets listener
         // https://issuetracker.google.com/issues/266331465
@@ -364,6 +366,27 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
     protected void onDestroy() {
         super.onDestroy();
         ContextExecutor.clearActivity();
+        if(mThermalListener != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ((PowerManager) getSystemService(POWER_SERVICE)).removeThermalStatusListener(mThermalListener);
+        }
+    }
+
+    private PowerManager.OnThermalStatusChangedListener mThermalListener;
+    private int mWarnedThermalStatus;
+
+    /** Warns once per level when the phone gets hot, which is when Android starts throttling the game. */
+    private void watchTemperature() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return;
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        if(powerManager == null) return;
+        mThermalListener = status -> {
+            if(status < PowerManager.THERMAL_STATUS_SEVERE || status <= mWarnedThermalStatus) return;
+            mWarnedThermalStatus = status;
+            Toast.makeText(this, LauncherPreferences.PREF_BATTERY_SAVER
+                    ? R.string.thermal_warning_saver_on
+                    : R.string.thermal_warning, Toast.LENGTH_LONG).show();
+        };
+        powerManager.addThermalStatusListener(mThermalListener);
     }
 
     @Override

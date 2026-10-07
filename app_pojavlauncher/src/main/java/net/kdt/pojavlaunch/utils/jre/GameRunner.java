@@ -25,6 +25,8 @@ import net.kdt.pojavlaunch.game.renderer.RenderSpec;
 import net.kdt.pojavlaunch.servers.QuickPlay;
 import net.kdt.pojavlaunch.skins.SkinService;
 import net.kdt.pojavlaunch.stats.PlayTime;
+import net.kdt.pojavlaunch.perf.BatterySaver;
+import net.kdt.pojavlaunch.perf.MemoryAdvisor;
 import net.kdt.pojavlaunch.utils.DateUtils;
 import net.kdt.pojavlaunch.utils.FileUtils;
 import net.kdt.pojavlaunch.utils.GpuUtils;
@@ -152,6 +154,8 @@ public class GameRunner {
 
     public static void launchGame(final AppCompatActivity activity, Account account,
                                   Instance instance, String versionId, File[] classpath, GameRenderer gameRenderer) throws Throwable {
+        // Only this game process sees the override, the saved setting stays as the player left it
+        if(LauncherPreferences.PREF_AUTO_RAM) LauncherPreferences.PREF_RAM_ALLOCATION = MemoryAdvisor.recommend(activity, instance);
         int freeDeviceMemory = Tools.getFreeDeviceMemory(activity);
         int localeString;
         int freeAddressSpace = Architecture.is32BitsDevice() ? Tools.getMaxContinuousAddressSpaceSize() : -1;
@@ -189,6 +193,7 @@ public class GameRunner {
         File gamedir = instance.getGameDirectory();
         SkinService.syncLocal(account, gamedir);
         PlayTime.start(instance);
+        BatterySaver.sync(gamedir, LauncherPreferences.PREF_BATTERY_SAVER);
         JVersionList.Version versionInfo = Tools.getVersionInfo(versionId);
         // We don't need the library list, the asset index, client download info for the code below
         versionInfo.libraries = null;
