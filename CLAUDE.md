@@ -42,6 +42,10 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - Servidores: junta os servers.dat de todas as instâncias com a lista do launcher (voxelith_servers.json), faz ping e entra direto (quick play passado ao processo do jogo por voxelith_quickplay.txt). A tela inicial mostra os 3 últimos jogados.
 - Skins: Microsoft pela API oficial (enviar PNG, clássico/fino, voltar ao padrão). Ely.by só mostra e abre o site. Conta local salva em voxelith_skins e copia para CustomSkinLoader/LocalSkin/skins de cada instância; precisa do mod CustomSkinLoader (botão instala).
 - Configurações em Geral, Jogo, Launcher, Avançado e Sobre (versão, commit, procurar atualização, código e licenças).
+- Mundos (botão no Início): lista os saves da instância lendo o level.dat, entra direto no mundo (--quickPlaySingleplayer, 1.20+), backup em zip em backups/<instância>, restaurar e importar zip sem sobrescrever mundo existente.
+- Tempo de jogo: o processo do jogo grava voxelith_session.json e toca o arquivo a cada minuto; ao sair soma em voxelith_playtime.json. Sessão que morreu sem sair é contada até o último toque.
+- Checagem antes de jogar (ModCheck, desliga em Configurações): mod de outro loader, duplicado, dependência faltando ou desativada, versão do Minecraft errada e pares que brigam (Sodium/Embeddium/Rubidium/OptiFine). Na dúvida não avisa.
+- Leitor de crash (ExitActivity + CrashAnalyzer): lê o latestlog.txt e o crash report da sessão e explica a causa (memória, Java, dependência, mod culpado, renderizador), com botão para desativar o mod ou abrir a tela certa.
 
 ## Mods, resource packs e shaders
 - Código em app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/mods e nos fragments InstanceContentFragment e ContentBrowserFragment.
@@ -74,4 +78,5 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-07: navegação por barra inferior. Novas abas Skins, Servidores e Hosting. Configurações reorganizadas como no launcher de PC.
 - 2026-10-07: aba Hosting divulga a BlackHosting. Preços tirados de buscas porque o site não abriu daqui: o dono precisa conferir.
 - 2026-10-07: Otimizar também instala BadOptimizations e desliga o desfoque dos menus.
+- 2026-10-07: adicionados leitor de crash, mundos com backup, tempo de jogo e checagem de mods antes de jogar.
 - 2026-10-07: teste num Galaxy A23 4G (Snapdragon 680 e Adreno 610, o mesmo chip do A05s), 1.21.1 Fabric com botão Otimizar: Sodium 0.6.13 rodando no LTW, distância 6, perto de 60 FPS (p99.5 em 49), 1,1 GB de memória com 38% em uso.
