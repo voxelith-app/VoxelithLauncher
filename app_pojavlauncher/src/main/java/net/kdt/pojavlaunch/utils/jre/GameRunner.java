@@ -22,6 +22,7 @@ import net.kdt.pojavlaunch.multirt.Runtime;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.game.renderer.GameRenderer;
 import net.kdt.pojavlaunch.game.renderer.RenderSpec;
+import net.kdt.pojavlaunch.servers.QuickPlay;
 import net.kdt.pojavlaunch.utils.DateUtils;
 import net.kdt.pojavlaunch.utils.FileUtils;
 import net.kdt.pojavlaunch.utils.GpuUtils;
@@ -236,6 +237,7 @@ public class GameRunner {
         // Pre-process specific files
         disableSplash(gamedir);
         List<String> launchArgs = getMoJsonClientArgs(account, versionInfo, gamedir);
+        launchArgs.addAll(QuickPlay.consumeArgs(versionInfo));
 
         // Select the appropriate openGL version
         OldVersionsUtils.selectOpenGlVersion(versionInfo);
