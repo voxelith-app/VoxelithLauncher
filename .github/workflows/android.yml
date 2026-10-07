@@ -6,6 +6,9 @@ on:
   pull_request:
     types: [labeled]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -73,6 +76,11 @@ jobs:
         run: |
           gradle :app_pojavlauncher:assembleFullPubRelease
           mv app_pojavlauncher/build/outputs/apk/full/pubRelease/app_pojavlauncher-full-pubRelease.apk out/MojoLauncher-release.apk
+      - name: Copy release files
+        run: |
+          cp out/voxelith-debug.apk out/voxelith.apk
+          cp out/voxelith-debug-noruntime.apk out/voxelith-noruntime.apk
+
       - name: Gen md5sums
         run: |
           md5sum out/voxelith-debug.apk > out/voxelith-debug.md5
@@ -102,6 +110,22 @@ jobs:
             Commit hash: ${{ github.sha }}
           files: |
             out/MojoLauncher-release.apk
+
+      - name: Publish Voxelith release
+        if: github.repository_owner == 'voxelith-app' && github.ref_name == 'v3_openjdk' && github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v3
+        with:
+          name: Voxelith Launcher (versão mais recente)
+          tag_name: voxelith-nightly
+          prerelease: false
+          make_latest: true
+          body: |
+            Versão de teste gerada automaticamente a cada atualização.
+            Baixe o voxelith.apk e instale por cima da versão anterior.
+            commit: ${{ github.sha }}
+          files: |
+            out/voxelith.apk
+            out/voxelith-noruntime.apk
 
       - name: Upload AAB
         uses: actions/upload-artifact@v4
