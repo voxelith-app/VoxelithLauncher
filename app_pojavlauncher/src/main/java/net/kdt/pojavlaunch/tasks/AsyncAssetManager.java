@@ -11,9 +11,12 @@ import android.util.Log;
 import com.kdt.mcgui.ProgressLayout;
 
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.customcontrols.ControlData;
 import net.kdt.pojavlaunch.multirt.MultiRTUtils;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -66,6 +69,7 @@ public class AsyncAssetManager {
         sExecutorService.execute(() -> {
             try {
                 Tools.copyAssetFile(ctx, "default.json", Tools.CTRLMAP_PATH, false);
+                addMenuButtonToDefaultLayout();
                 Tools.copyAssetFile(ctx, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
                 Tools.copyAssetFile(ctx,"resolv.conf",Tools.DIR_DATA, false);
             } catch (IOException e) {
@@ -73,6 +77,48 @@ public class AsyncAssetManager {
             }
             ProgressLayout.clearProgress(ProgressLayout.EXTRACT_SINGLE_FILES);
         });
+    }
+
+    /**
+     * The menu gear starts hidden, so a default layout copied by an older version would leave
+     * the player with no way to open the game menu. Adds a Menu button to it once.
+     */
+    private static void addMenuButtonToDefaultLayout() {
+        File layoutFile = new File(Tools.CTRLDEF_FILE);
+        if(!layoutFile.isFile()) return;
+        try {
+            JSONObject layout = new JSONObject(Tools.read(layoutFile));
+            JSONArray buttons = layout.optJSONArray("mControlDataList");
+            if(buttons == null) return;
+            for(int i = 0; i < buttons.length(); i++) {
+                JSONArray keycodes = buttons.getJSONObject(i).optJSONArray("keycodes");
+                if(keycodes == null) continue;
+                for(int j = 0; j < keycodes.length(); j++) {
+                    if(keycodes.optInt(j) == ControlData.SPECIALBTN_MENU) return;
+                }
+            }
+            JSONObject menu = new JSONObject();
+            menu.put("name", "Menu");
+            menu.put("keycodes", new JSONArray(new int[]{ControlData.SPECIALBTN_MENU, 0, 0, 0}));
+            menu.put("dynamicX", "${right} - ${margin} - ${width}");
+            menu.put("dynamicY", "${margin}");
+            menu.put("width", 80);
+            menu.put("height", 30);
+            menu.put("opacity", 1);
+            menu.put("bgColor", 1291845632);
+            menu.put("strokeColor", -1);
+            menu.put("strokeWidth", 0);
+            menu.put("cornerRadius", 0);
+            menu.put("isDynamicBtn", false);
+            menu.put("isHideable", false);
+            menu.put("isSwipeable", false);
+            menu.put("isToggle", false);
+            menu.put("passThruEnabled", false);
+            buttons.put(menu);
+            Tools.write(layoutFile, layout.toString());
+        }catch (Exception e) {
+            Log.w("AsyncAssetManager", "Could not add the menu button to the default layout", e);
+        }
     }
 
     public static void unpackComponents(Context ctx){
