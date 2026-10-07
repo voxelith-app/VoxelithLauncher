@@ -94,7 +94,7 @@
         <activity
             android:name="net.kdt.pojavlaunch.ExitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+            android:theme="@style/Voxelith.Transparent" />
         <activity
             android:process=":gui_installer"
             android:name="net.kdt.pojavlaunch.awt.AWTActivity"

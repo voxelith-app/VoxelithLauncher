@@ -1,5 +1,14 @@
 package net.kdt.pojavlaunch;
 
+import net.kdt.pojavlaunch.mods.ContentTarget;
+import net.kdt.pojavlaunch.mods.ModCheck;
+import net.kdt.pojavlaunch.mods.ModCheckDialog;
+import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceJavaFragment;
+import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceVideoFragment;
+import net.kdt.pojavlaunch.servers.QuickPlay;
+import net.kdt.pojavlaunch.stats.PlayTime;
+
+import java.util.List;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -145,6 +154,32 @@ public class LauncherActivity extends BaseActivity {
             ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
             return false;
         }
+        if(!LauncherPreferences.DEFAULT_PREF.getBoolean(PREF_CHECK_MODS, true)) {
+            startLaunch(selectedInstance);
+            return false;
+        }
+        PojavApplication.sExecutorService.execute(() -> {
+            ContentTarget target = ContentTarget.fromInstance(selectedInstance);
+            List<ModCheck.Issue> issues = ModCheck.check(target);
+            Tools.runOnUiThread(() -> {
+                if(isFinishing() || isDestroyed()) return;
+                if(issues.isEmpty()) {
+                    startLaunch(selectedInstance);
+                    return;
+                }
+                ModCheckDialog.show(this, target, issues, () -> startLaunch(selectedInstance), QuickPlay::cancel);
+            });
+        });
+        return false;
+    };
+
+    public static final String PREF_CHECK_MODS = "checkModsBeforeLaunch";
+
+    private void startLaunch(Instance selectedInstance) {
+        if(mProgressLayout.hasProcesses()){
+            Toast.makeText(this, R.string.tasks_ongoing, Toast.LENGTH_LONG).show();
+            return;
+        }
         String normalizedVersionId = MoJsonExtras.normalizeVersionId(selectedInstance.versionId);
         JVersionList.Version mcVersion = MoJsonExtras.getListedVersion(normalizedVersionId);
         new MoJsonDownloader().start(
@@ -153,8 +188,7 @@ public class LauncherActivity extends BaseActivity {
                 normalizedVersionId,
                 new ContextAwareDoneListener(this, normalizedVersionId)
         );
-        return false;
-    };
+    }
 
     private final TaskCountListener mDoubleLaunchPreventionListener = taskCount -> {
         // Hide the notification that starts the game if there are tasks executing.
@@ -224,9 +258,12 @@ public class LauncherActivity extends BaseActivity {
         mProgressLayout.observe(ProgressLayout.INSTANCE_INSTALL);
         mProgressLayout.observe(ProgressLayout.DATA_MIGRATION);
 
+        PojavApplication.sExecutorService.execute(PlayTime::recoverStale);
         if(savedInstanceState == null) {
             UpdateChecker.checkAsync(this);
-            openStartTab();
+            String open = getIntent().getStringExtra(ExitActivity.EXTRA_OPEN);
+            if(open != null) openAfterCrash(open);
+            else openStartTab();
         }
     }
 
@@ -389,6 +426,20 @@ public class LauncherActivity extends BaseActivity {
             mTabs[i] = tab;
         }
         selectTab(0);
+    }
+
+    private void openAfterCrash(String target) {
+        switch (target) {
+            case ExitActivity.OPEN_MODS:
+                openTab(1);
+                break;
+            case ExitActivity.OPEN_VIDEO:
+                Tools.swapFragment(this, LauncherPreferenceVideoFragment.class, SETTING_FRAGMENT_TAG, null);
+                break;
+            case ExitActivity.OPEN_JAVA:
+                Tools.swapFragment(this, LauncherPreferenceJavaFragment.class, SETTING_FRAGMENT_TAG, null);
+                break;
+        }
     }
 
     private void openStartTab() {

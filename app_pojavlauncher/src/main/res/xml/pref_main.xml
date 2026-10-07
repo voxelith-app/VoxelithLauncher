@@ -72,6 +72,13 @@
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
+            android:icon="@drawable/ic_px_verify_hash"
+            android:key="checkModsBeforeLaunch"
+            android:summary="@string/preference_check_mods_description"
+            android:title="@string/preference_check_mods_title"/>
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:icon="@drawable/ic_px_memory_warning"
             android:key="showMemoryWarning"
             android:title="@string/preference_show_memory_warning_title"
