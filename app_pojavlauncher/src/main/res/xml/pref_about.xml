@@ -17,6 +17,12 @@
             android:title="@string/about_check_update"/>
 
         <Preference
+            android:icon="@drawable/ic_sparkles"
+            android:key="aboutWelcome"
+            android:summary="@string/about_welcome_summary"
+            android:title="@string/about_welcome"/>
+
+        <Preference
             android:icon="@drawable/ic_users"
             android:key="aboutOwners"
             android:selectable="false"

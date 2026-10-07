@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_voxelith" />
+
+        <TextView
+            android:id="@+id/welcome_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/voxelith_cyan_light"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_menu_card"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:id="@+id/welcome_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/welcome_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/text_default"
+                android:textSize="14sp" />
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/welcome_action"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="14dp"
+                android:visibility="gone" />
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/welcome_action2"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/welcome_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="@string/welcome_skip"
+                android:textColor="@color/text_tertiary" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/welcome_next"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="@drawable/button_brand"
+                android:minWidth="120dp"
+                android:paddingHorizontal="20dp"
+                android:text="@string/welcome_next"
+                android:textColor="@color/button_brand_text" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

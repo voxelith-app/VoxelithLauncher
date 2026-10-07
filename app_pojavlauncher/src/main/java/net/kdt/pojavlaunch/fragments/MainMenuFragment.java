@@ -1,5 +1,12 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.net.Uri;
+
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import net.kdt.pojavlaunch.instances.InstanceBackup;
+
+import java.io.OutputStream;
 import android.widget.ImageView;
 
 import net.kdt.pojavlaunch.servers.QuickPlay;
@@ -55,6 +62,11 @@ public class MainMenuFragment extends Fragment {
 
     private mcVersionSpinner mVersionSpinner;
 
+    @SuppressWarnings("deprecation") // The mime type constructor needs a newer androidx.activity
+    private final ActivityResultLauncher<String> mBackupLauncher = registerForActivityResult(
+            new ActivityResultContracts.CreateDocument(), this::exportInstance);
+    private boolean mExporting;
+
     private final ActivityResultLauncher<Object> mModInstallerLauncher =
             registerForActivityResult(new OpenDocumentWithExtension("jar"), (data)->{
                 if(data != null) Tools.launchModInstaller(requireContext(), data);
@@ -91,11 +103,51 @@ public class MainMenuFragment extends Fragment {
         mOpenDirectoryButton.setOnClickListener((v)-> openGameDirectory(v.getContext()));
 
         mModsButton.setOnClickListener((v)-> openWorlds());
+        view.findViewById(R.id.modpacks_button).setOnClickListener(v ->
+                Tools.swapFragment(requireActivity(), ModpacksFragment.class, ModpacksFragment.TAG, null));
+        view.findViewById(R.id.screenshots_button).setOnClickListener(v -> {
+            if(Instances.loadSelectedInstance() == null) {
+                Toast.makeText(requireContext(), R.string.no_instance, Toast.LENGTH_LONG).show();
+                return;
+            }
+            Tools.swapFragment(requireActivity(), ScreenshotsFragment.class, ScreenshotsFragment.TAG, null);
+        });
+        view.findViewById(R.id.backup_button).setOnClickListener(v -> {
+            Instance instance = Instances.loadSelectedInstance();
+            if(instance == null) {
+                Toast.makeText(requireContext(), R.string.no_instance, Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(!mExporting) mBackupLauncher.launch(instance.name.replaceAll("[\\\\/:*?\"<>|]", "_") + ".zip");
+        });
 
 
         mNewsButton.setOnLongClickListener((v)->{
             Tools.swapFragment(requireActivity(), GamepadMapperFragment.class, GamepadMapperFragment.TAG, null);
             return true;
+        });
+    }
+
+    private void exportInstance(@Nullable Uri uri) {
+        Instance instance = Instances.loadSelectedInstance();
+        if(uri == null || instance == null) return;
+        mExporting = true;
+        Context context = requireContext().getApplicationContext();
+        Toast.makeText(context, getString(R.string.instance_backup_exporting, instance.name), Toast.LENGTH_SHORT).show();
+        PojavApplication.sExecutorService.execute(() -> {
+            String message;
+            try(OutputStream out = context.getContentResolver().openOutputStream(uri)) {
+                if(out == null) throw new java.io.IOException("no output");
+                InstanceBackup.export(instance, out);
+                message = context.getString(R.string.instance_backup_exported, instance.name);
+            }catch (Exception e) {
+                message = context.getString(R.string.worlds_error, e.getMessage());
+            }
+            final String result = message;
+            Tools.runOnUiThread(() -> {
+                mExporting = false;
+                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+            });
         });
     }
 

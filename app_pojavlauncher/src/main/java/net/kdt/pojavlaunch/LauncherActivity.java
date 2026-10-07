@@ -21,6 +21,7 @@ import net.kdt.pojavlaunch.fragments.HostingFragment;
 import net.kdt.pojavlaunch.fragments.InstanceContentFragment;
 import net.kdt.pojavlaunch.fragments.ServersFragment;
 import net.kdt.pojavlaunch.fragments.SkinsFragment;
+import net.kdt.pojavlaunch.fragments.WelcomeFragment;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import android.Manifest;
 import android.app.NotificationManager;
@@ -263,6 +264,7 @@ public class LauncherActivity extends BaseActivity {
             UpdateChecker.checkAsync(this);
             String open = getIntent().getStringExtra(ExitActivity.EXTRA_OPEN);
             if(open != null) openAfterCrash(open);
+            else if(shouldShowWelcome()) Tools.swapFragment(this, WelcomeFragment.class, WelcomeFragment.TAG, null);
             else openStartTab();
         }
     }
@@ -426,6 +428,16 @@ public class LauncherActivity extends BaseActivity {
             mTabs[i] = tab;
         }
         selectTab(0);
+    }
+
+    /** Only on a fresh install: people who already have an account skip the guide (it stays in Sobre). */
+    private boolean shouldShowWelcome() {
+        if(WelcomeFragment.isDone()) return false;
+        if(Accounts.getCurrent() != null) {
+            LauncherPreferences.DEFAULT_PREF.edit().putBoolean(WelcomeFragment.PREF_DONE, true).apply();
+            return false;
+        }
+        return true;
     }
 
     private void openAfterCrash(String target) {

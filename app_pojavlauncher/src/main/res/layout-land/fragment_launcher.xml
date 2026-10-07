@@ -96,6 +96,30 @@
                 android:drawableStart="@drawable/ic_world"
                 android:text="@string/worlds_title"
                 app:layout_constraintTop_toBottomOf="@id/open_files_button" />
+
+            <com.kdt.mcgui.LauncherMenuButton
+                android:id="@+id/modpacks_button"
+                style="@style/LauncherMenuButton.Universal"
+                android:layout_width="match_parent"
+                android:drawableStart="@drawable/ic_package"
+                android:text="@string/modpacks_title"
+                app:layout_constraintTop_toBottomOf="@id/mods_button" />
+
+            <com.kdt.mcgui.LauncherMenuButton
+                android:id="@+id/screenshots_button"
+                style="@style/LauncherMenuButton.Universal"
+                android:layout_width="match_parent"
+                android:drawableStart="@drawable/ic_images"
+                android:text="@string/screenshots_title"
+                app:layout_constraintTop_toBottomOf="@id/modpacks_button" />
+
+            <com.kdt.mcgui.LauncherMenuButton
+                android:id="@+id/backup_button"
+                style="@style/LauncherMenuButton.Universal"
+                android:layout_width="match_parent"
+                android:drawableStart="@drawable/ic_folder_up"
+                android:text="@string/instance_backup_export"
+                app:layout_constraintTop_toBottomOf="@id/screenshots_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

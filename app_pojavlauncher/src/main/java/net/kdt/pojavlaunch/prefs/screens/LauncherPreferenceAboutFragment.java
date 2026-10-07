@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.fragments.WelcomeFragment;
 import net.kdt.pojavlaunch.utils.UpdateChecker;
 
 import git.artdeell.mojo.R;
@@ -25,6 +26,10 @@ public class LauncherPreferenceAboutFragment extends LauncherPreferenceFragment 
         });
         requirePreference("aboutCheckUpdate").setOnPreferenceClickListener(p -> {
             UpdateChecker.checkNow(requireActivity());
+            return true;
+        });
+        requirePreference("aboutWelcome").setOnPreferenceClickListener(p -> {
+            Tools.swapFragment(requireActivity(), WelcomeFragment.class, WelcomeFragment.TAG, null);
             return true;
         });
         link("aboutSource", SOURCE_URL);

@@ -115,6 +115,36 @@
 				app:layout_constraintStart_toEndOf="@id/center_guideline"
 				app:layout_constraintEnd_toEndOf="parent" />
 
+			<com.kdt.mcgui.LauncherMenuButton
+				android:id="@+id/modpacks_button"
+				style="@style/LauncherMenuButton.Universal"
+				android:layout_width="0dp"
+				android:drawableStart="@drawable/ic_package"
+				android:text="@string/modpacks_title"
+				app:layout_constraintTop_toBottomOf="@id/open_files_button"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/center_guideline" />
+
+			<com.kdt.mcgui.LauncherMenuButton
+				android:id="@+id/screenshots_button"
+				style="@style/LauncherMenuButton.Universal"
+				android:layout_width="0dp"
+				android:drawableStart="@drawable/ic_images"
+				android:text="@string/screenshots_title"
+				app:layout_constraintTop_toBottomOf="@id/open_files_button"
+				app:layout_constraintStart_toEndOf="@id/center_guideline"
+				app:layout_constraintEnd_toEndOf="parent" />
+
+			<com.kdt.mcgui.LauncherMenuButton
+				android:id="@+id/backup_button"
+				style="@style/LauncherMenuButton.Universal"
+				android:layout_width="0dp"
+				android:drawableStart="@drawable/ic_folder_up"
+				android:text="@string/instance_backup_export"
+				app:layout_constraintTop_toBottomOf="@id/modpacks_button"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent" />
+
 			<View
 				android:id="@+id/social_divider"
 				android:layout_width="0dp"
