@@ -15,6 +15,11 @@ public class DisplayInstance {
     protected DisplayInstance() {
     }
 
+    /** Name of the instance folder, which never changes even if the instance is renamed. */
+    public String getId() {
+        return mInstanceRoot.getName();
+    }
+
     protected File getInstanceIconLocation() {
         return new File(mInstanceRoot, "icon.webp");
     }

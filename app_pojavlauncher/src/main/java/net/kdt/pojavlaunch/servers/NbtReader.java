@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Just enough NBT to read servers.dat (uncompressed): compounds become maps, lists become lists. */
-final class NbtReader {
+/** Just enough NBT for servers.dat and level.dat (wrap level.dat in a GZIPInputStream): compounds become maps, lists become lists. */
+public final class NbtReader {
     private NbtReader() {}
 
-    static Map<String, Object> readRoot(InputStream inputStream) throws IOException {
+    public static Map<String, Object> readRoot(InputStream inputStream) throws IOException {
         DataInputStream input = new DataInputStream(inputStream);
         int type = input.readUnsignedByte();
         if(type != 10) throw new IOException("Root tag is not a compound");

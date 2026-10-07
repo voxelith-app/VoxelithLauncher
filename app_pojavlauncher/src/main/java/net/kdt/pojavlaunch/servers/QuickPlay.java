@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Hands a server address from the launcher process to the game process, which runs separately,
- * through a one-shot file in the game home.
+ * Hands a server address or a world folder from the launcher process to the game process,
+ * which runs separately, through a one-shot file in the game home.
  */
 public final class QuickPlay {
     private QuickPlay() {}
@@ -22,11 +22,26 @@ public final class QuickPlay {
         return new File(Tools.DIR_GAME_HOME, "voxelith_quickplay.txt");
     }
 
+    private static final String WORLD_PREFIX = "world:";
+
     public static void request(String address) {
+        save(address.trim());
+    }
+
+    /** Opens a singleplayer world by its folder name in saves/. Needs 1.20 (23w14a) or newer. */
+    public static void requestWorld(String folderName) {
+        save(WORLD_PREFIX + folderName);
+    }
+
+    public static void cancel() {
+        boolean ignored = file().delete();
+    }
+
+    private static void save(String request) {
         try {
-            Tools.write(file().getAbsolutePath(), address.trim());
+            Tools.write(file().getAbsolutePath(), request);
         }catch (Exception e) {
-            Log.w("QuickPlay", "Failed to save server address", e);
+            Log.w("QuickPlay", "Failed to save quick play request", e);
         }
     }
 
@@ -46,6 +61,13 @@ public final class QuickPlay {
             boolean ignored = file.delete();
         }
         if(address.isEmpty()) return args;
+        if(address.startsWith(WORLD_PREFIX)) {
+            if(supportsQuickPlay(versionInfo)) {
+                args.add("--quickPlaySingleplayer");
+                args.add(address.substring(WORLD_PREFIX.length()));
+            }
+            return args;
+        }
         if(supportsQuickPlay(versionInfo)) {
             args.add("--quickPlayMultiplayer");
             args.add(address);
@@ -65,8 +87,8 @@ public final class QuickPlay {
         return args;
     }
 
-    /** --quickPlayMultiplayer exists since 23w14a (5 April 2023). */
-    private static boolean supportsQuickPlay(JVersionList.Version versionInfo) {
+    /** --quickPlayMultiplayer and --quickPlaySingleplayer exist since 23w14a (5 April 2023). */
+    public static boolean supportsQuickPlay(JVersionList.Version versionInfo) {
         try {
             Date date = DateUtils.getOriginalReleaseDate(versionInfo);
             return date != null && !DateUtils.dateBefore(date, 2023, 3, 5);

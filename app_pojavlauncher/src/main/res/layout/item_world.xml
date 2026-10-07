@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/background_menu_card"
+    android:gravity="center_vertical"
+    android:minHeight="72dp"
+    android:orientation="horizontal"
+    android:paddingVertical="10dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="4dp">
+
+    <ImageView
+        android:id="@+id/world_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/background_icon_round"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/world_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/primary_text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/world_meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/text_tertiary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <com.kdt.mcgui.MineButton
+        android:id="@+id/world_play"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/button_brand"
+        android:minWidth="72dp"
+        android:paddingHorizontal="14dp"
+        android:text="@string/servers_play"
+        android:textColor="@color/button_brand_text" />
+
+    <ImageButton
+        android:id="@+id/world_more"
+        android:layout_width="36dp"
+        android:layout_height="40dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/worlds_more"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_more" />
+</LinearLayout>

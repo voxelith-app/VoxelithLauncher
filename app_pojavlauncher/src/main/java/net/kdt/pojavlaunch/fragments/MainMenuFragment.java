@@ -1,5 +1,12 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.widget.ImageView;
+
+import net.kdt.pojavlaunch.servers.QuickPlay;
+import net.kdt.pojavlaunch.stats.PlayTime;
+import net.kdt.pojavlaunch.worlds.WorldStore;
+
+import java.util.Collections;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -83,7 +90,7 @@ public class MainMenuFragment extends Fragment {
 
         mOpenDirectoryButton.setOnClickListener((v)-> openGameDirectory(v.getContext()));
 
-        mModsButton.setOnClickListener((v)-> openInstanceContent());
+        mModsButton.setOnClickListener((v)-> openWorlds());
 
 
         mNewsButton.setOnLongClickListener((v)->{
@@ -92,12 +99,12 @@ public class MainMenuFragment extends Fragment {
         });
     }
 
-    private void openInstanceContent() {
+    private void openWorlds() {
         if(Instances.loadSelectedInstance() == null) {
             Toast.makeText(requireContext(), R.string.no_instance, Toast.LENGTH_LONG).show();
             return;
         }
-        Tools.swapFragment(requireActivity(), InstanceContentFragment.class, InstanceContentFragment.TAG, null);
+        Tools.swapFragment(requireActivity(), WorldsFragment.class, WorldsFragment.TAG, null);
     }
 
     private void openGameDirectory(Context context) {
@@ -121,35 +128,92 @@ public class MainMenuFragment extends Fragment {
         loadRecentServers();
     }
 
+    private static class RecentEntry {
+        final String title;
+        final String detail;
+        final long time;
+        final boolean world;
+        @Nullable final SavedServer server;
+        @Nullable final String worldFolder;
+
+        RecentEntry(String title, String detail, long time, @Nullable SavedServer server, @Nullable String worldFolder) {
+            this.title = title;
+            this.detail = detail;
+            this.time = time;
+            this.server = server;
+            this.worldFolder = worldFolder;
+            this.world = worldFolder != null;
+        }
+    }
+
     private void loadRecentServers() {
         View view = getView();
-        if(view == null || view.findViewById(R.id.recent_section) == null) return;
+        if(view == null) return;
         PojavApplication.sExecutorService.execute(() -> {
-            List<SavedServer> recent = new ArrayList<>(3);
+            Instance instance = Instances.loadSelectedInstance();
+            List<RecentEntry> recent = new ArrayList<>();
             for(SavedServer server : ServerStore.loadAll()) {
                 if(server.lastPlayed <= 0) break;
-                recent.add(server);
+                recent.add(new RecentEntry(server.name, server.address, server.lastPlayed, server, null));
                 if(recent.size() == 3) break;
             }
-            Tools.runOnUiThread(() -> showRecentServers(recent));
+            PlayTime.Stats stats = null;
+            if(instance != null) {
+                for(WorldStore.World world : WorldStore.list(instance.getGameDirectory())) {
+                    if(world.lastPlayed <= 0) continue;
+                    recent.add(new RecentEntry(world.name, instance.name, world.lastPlayed, null, world.folder.getName()));
+                    if(recent.size() >= 6) break;
+                }
+                stats = PlayTime.get(instance);
+            }
+            Collections.sort(recent, (a, b) -> Long.compare(b.time, a.time));
+            while(recent.size() > 3) recent.remove(recent.size() - 1);
+            final PlayTime.Stats instanceStats = stats;
+            Tools.runOnUiThread(() -> {
+                showRecent(recent);
+                showPlayTime(instanceStats);
+            });
         });
     }
 
-    private void showRecentServers(List<SavedServer> recent) {
+    private void showPlayTime(@Nullable PlayTime.Stats stats) {
+        View view = getView();
+        if(!isAdded() || view == null) return;
+        TextView text = view.findViewById(R.id.home_playtime);
+        if(text == null) return;
+        if(stats == null || stats.totalMillis <= 0) {
+            text.setVisibility(View.GONE);
+            return;
+        }
+        CharSequence last = DateUtils.getRelativeTimeSpanString(stats.lastPlayed, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS);
+        text.setText(getString(R.string.playtime_summary, PlayTime.format(requireContext(), stats.totalMillis), last));
+        text.setVisibility(View.VISIBLE);
+    }
+
+    private void showRecent(List<RecentEntry> recent) {
         View view = getView();
         if(!isAdded() || view == null) return;
         View section = view.findViewById(R.id.recent_section);
         LinearLayout list = view.findViewById(R.id.recent_list);
+        if(section == null || list == null) return;
         list.removeAllViews();
         section.setVisibility(recent.isEmpty() ? View.GONE : View.VISIBLE);
         LayoutInflater inflater = LayoutInflater.from(requireContext());
         long now = System.currentTimeMillis();
-        for(SavedServer server : recent) {
+        for(RecentEntry entry : recent) {
             View row = inflater.inflate(R.layout.item_recent_server, list, false);
-            ((TextView) row.findViewById(R.id.recent_name)).setText(server.name);
-            CharSequence when = DateUtils.getRelativeTimeSpanString(server.lastPlayed, now, DateUtils.MINUTE_IN_MILLIS);
-            ((TextView) row.findViewById(R.id.recent_detail)).setText(server.address + " · " + when);
-            row.setOnClickListener(v -> ServersFragment.join(requireContext(), server));
+            ((ImageView) row.findViewById(R.id.recent_icon)).setImageResource(entry.world ? R.drawable.ic_world : R.drawable.ic_nav_servers);
+            ((TextView) row.findViewById(R.id.recent_name)).setText(entry.title);
+            CharSequence when = DateUtils.getRelativeTimeSpanString(entry.time, now, DateUtils.MINUTE_IN_MILLIS);
+            ((TextView) row.findViewById(R.id.recent_detail)).setText(entry.detail + " · " + when);
+            row.setOnClickListener(v -> {
+                if(entry.server != null) {
+                    ServersFragment.join(requireContext(), entry.server);
+                }else if(entry.worldFolder != null) {
+                    QuickPlay.requestWorld(entry.worldFolder);
+                    ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
+                }
+            });
             list.addView(row);
         }
     }
