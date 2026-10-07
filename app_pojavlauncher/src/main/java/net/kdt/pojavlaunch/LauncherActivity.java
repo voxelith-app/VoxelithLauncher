@@ -1,5 +1,17 @@
 package net.kdt.pojavlaunch;
 
+import android.content.res.ColorStateList;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.core.widget.ImageViewCompat;
+
+import net.kdt.pojavlaunch.fragments.HostingFragment;
+import net.kdt.pojavlaunch.fragments.InstanceContentFragment;
+import net.kdt.pojavlaunch.fragments.ServersFragment;
+import net.kdt.pojavlaunch.fragments.SkinsFragment;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import android.Manifest;
 import android.app.NotificationManager;
@@ -68,6 +80,8 @@ public class LauncherActivity extends BaseActivity {
         public void onFragmentResumed(@NonNull FragmentManager fm, @NonNull Fragment f) {
             mSettingsButton.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), f instanceof MainMenuFragment
                     ? R.drawable.ic_px_sliders : R.drawable.ic_px_home));
+            int tab = tabOf(f);
+            if(tab != -1) selectTab(tab);
         }
     };
 
@@ -336,5 +350,65 @@ public class LauncherActivity extends BaseActivity {
         mFragmentView = findViewById(R.id.container_fragment);
         mSettingsButton = findViewById(R.id.setting_button);
         mProgressLayout = findViewById(R.id.progress_layout);
+        setupBottomNav();
+    }
+
+    private static final Class<?>[] TAB_FRAGMENTS = {
+            MainMenuFragment.class, InstanceContentFragment.class, SkinsFragment.class,
+            ServersFragment.class, HostingFragment.class
+    };
+    private static final String[] TAB_TAGS = {
+            null, InstanceContentFragment.TAG, SkinsFragment.TAG, ServersFragment.TAG, HostingFragment.TAG
+    };
+    private static final int[] TAB_ICONS = {
+            R.drawable.ic_nav_home, R.drawable.ic_nav_mods, R.drawable.ic_nav_skins,
+            R.drawable.ic_nav_servers, R.drawable.ic_nav_hosting
+    };
+    private static final int[] TAB_LABELS = {
+            R.string.nav_home, R.string.nav_mods, R.string.nav_skins, R.string.nav_servers, R.string.nav_hosting
+    };
+    private final View[] mTabs = new View[TAB_FRAGMENTS.length];
+
+    private void setupBottomNav() {
+        LinearLayout bar = findViewById(R.id.bottom_nav);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        ColorStateList tint = ContextCompat.getColorStateList(this, R.color.nav_item_tint);
+        for(int i = 0; i < mTabs.length; i++) {
+            View tab = inflater.inflate(R.layout.item_nav_tab, bar, false);
+            ImageView icon = tab.findViewById(R.id.nav_icon);
+            icon.setImageResource(TAB_ICONS[i]);
+            ImageViewCompat.setImageTintList(icon, tint);
+            ((TextView) tab.findViewById(R.id.nav_label)).setText(TAB_LABELS[i]);
+            tab.setContentDescription(getString(TAB_LABELS[i]));
+            final int index = i;
+            tab.setOnClickListener(v -> openTab(index));
+            bar.addView(tab);
+            mTabs[i] = tab;
+        }
+        selectTab(0);
+    }
+
+    private void selectTab(int index) {
+        for(int i = 0; i < mTabs.length; i++) mTabs[i].setSelected(i == index);
+    }
+
+    private static int tabOf(Fragment fragment) {
+        for(int i = 0; i < TAB_FRAGMENTS.length; i++) {
+            if(TAB_FRAGMENTS[i] == fragment.getClass()) return i;
+        }
+        return -1;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void openTab(int index) {
+        FragmentManager manager = getSupportFragmentManager();
+        if(manager.isStateSaved()) return;
+        Fragment current = manager.findFragmentById(mFragmentView.getId());
+        if(current != null && current.getClass() == TAB_FRAGMENTS[index]) return;
+        selectTab(index);
+        // Tabs never stack on each other: back always goes to the home screen
+        Tools.backToMainMenu(this);
+        if(index == 0) return;
+        Tools.swapFragment(this, (Class<? extends Fragment>) TAB_FRAGMENTS[index], TAB_TAGS[index], null);
     }
 }

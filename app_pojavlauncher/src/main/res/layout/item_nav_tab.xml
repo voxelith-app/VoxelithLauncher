@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="?android:attr/selectableItemBackgroundBorderless"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/nav_icon"
+        android:layout_width="52dp"
+        android:layout_height="28dp"
+        android:background="@drawable/background_nav_indicator"
+        android:duplicateParentState="true"
+        android:importantForAccessibility="no"
+        android:paddingVertical="4dp"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/nav_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:duplicateParentState="true"
+        android:maxLines="1"
+        android:textColor="@color/nav_item_tint"
+        android:textSize="11sp" />
+</LinearLayout>
