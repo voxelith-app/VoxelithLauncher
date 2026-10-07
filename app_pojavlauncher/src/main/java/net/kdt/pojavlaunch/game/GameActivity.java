@@ -299,7 +299,7 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
         } catch (Throwable th) {
             Tools.showError(this, th);
         }
-        mDrawerPullButton.setVisibility(mControlLayout.hasMenuButton() ? View.GONE : View.VISIBLE);
+        updateDrawerPullButton();
         mControlLayout.toggleControlVisible();
     }
 
@@ -535,6 +535,12 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
                 .start();
     }
 
+    /** The gear only shows when the layout has no menu button of its own and the player did not turn it off. */
+    private void updateDrawerPullButton() {
+        boolean show = LauncherPreferences.PREF_SHOW_MENU_GEAR && !mControlLayout.hasMenuButton();
+        mDrawerPullButton.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onClickedMenu() {
         drawerLayout.openDrawer(navDrawer);
@@ -548,7 +554,7 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
             mControlLayout.setModifiable(false);
             System.gc();
             mControlLayout.loadLayout(instance.getLaunchControls());
-            mDrawerPullButton.setVisibility(mControlLayout.hasMenuButton() ? View.GONE : View.VISIBLE);
+            updateDrawerPullButton();
         } catch (Exception e) {
             Tools.showError(this,e);
         }

@@ -21,7 +21,7 @@ public class DrawerPullButton extends View {
 
     private void init(){
         mDrawable = VectorDrawableCompat.create(getContext().getResources(), R.drawable.ic_sharp_settings_24, null);
-        setAlpha(0.33f);
+        setAlpha(0.6f);
         mBackgroundPaint.setColor(Color.BLACK);
     }
 
@@ -29,11 +29,11 @@ public class DrawerPullButton extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawArc(getPaddingLeft(),-getHeight() + getPaddingBottom(),getWidth() - getPaddingRight(), getHeight() - getPaddingBottom(), 0, 180, true, mBackgroundPaint);
 
-        mDrawable.setBounds(getPaddingLeft()/2, getPaddingTop()/2, getHeight() - getPaddingRight()/2, getHeight() - getPaddingBottom()/2);
-        canvas.save();
-        canvas.translate((getWidth()-getHeight())/2f, -getPaddingBottom()/2f);
+        // The outline gear needs the whole half circle to stay readable
+        int size = getHeight() - getPaddingBottom() / 2;
+        int left = (getWidth() - size) / 2;
+        mDrawable.setBounds(left, -size / 8, left + size, size - size / 8);
         mDrawable.draw(canvas);
-        canvas.restore();
     }
 
     // Move the button to the third quarter of the screen

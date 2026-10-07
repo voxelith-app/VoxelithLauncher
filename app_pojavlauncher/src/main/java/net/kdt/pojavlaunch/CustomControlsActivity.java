@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonSyntaxException;
@@ -33,6 +34,8 @@ public class CustomControlsActivity extends BaseActivity implements EditorExitab
 	private ControlLayout mControlLayout;
 	private CropperUtils.CropperReceiver mCropperReceiver;
 	private ActivityResultLauncher<?> mCropperLauncher;
+	private final ActivityResultLauncher<String[]> mImportLauncher = registerForActivityResult(
+			new ActivityResultContracts.OpenDocument(), this::importLayout);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +79,22 @@ public class CustomControlsActivity extends BaseActivity implements EditorExitab
 						Tools.showError(this, e);
 					}
 					break;
+				case 7:
+					mImportLauncher.launch(new String[]{"application/json", "text/plain", "application/octet-stream"});
+					break;
 			}
 			mDrawerLayout.closeDrawers();
 		});
 		mControlLayout.setModifiable(true);
+	}
+
+	/** Hands the picked file to the same screen that handles controls opened from a file manager. */
+	private void importLayout(Uri uri) {
+		if(uri == null) return;
+		Intent intent = new Intent(this, ImportControlActivity.class);
+		intent.setData(uri);
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		startActivity(intent);
 	}
 
 	@Override

@@ -74,6 +74,13 @@
             android:summary="@string/mcl_setting_subtitle_buttonallcaps"
             android:icon="@drawable/ic_px_letters"
             />
+        <SwitchPreferenceCompat
+            android:key="showMenuGear"
+            android:defaultValue="true"
+            android:title="@string/preference_show_menu_gear_title"
+            android:summary="@string/preference_show_menu_gear_description"
+            android:icon="@drawable/ic_sharp_settings_24"
+            />
 
     </PreferenceCategory>
 

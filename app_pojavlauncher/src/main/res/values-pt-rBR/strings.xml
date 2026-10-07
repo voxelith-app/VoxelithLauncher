@@ -696,4 +696,8 @@
     <string name="worlds_mode_adventure">Aventura</string>
     <string name="worlds_mode_spectator">Espectador</string>
     <string name="worlds_mode_hardcore">Hardcore</string>
+    <string name="customctrl_import">Importar controles</string>
+    <string name="customctrl_menu">Menu do editor</string>
+    <string name="preference_show_menu_gear_title">Mostrar engrenagem no jogo</string>
+    <string name="preference_show_menu_gear_description">A engrenagem no alto da tela abre o menu do jogo. Se desligar, use um botão de menu nos seus controles para abrir.</string>
 </resources>

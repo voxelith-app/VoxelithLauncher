@@ -734,4 +734,8 @@
     <string name="worlds_mode_adventure">Adventure</string>
     <string name="worlds_mode_spectator">Spectator</string>
     <string name="worlds_mode_hardcore">Hardcore</string>
+    <string name="customctrl_import">Import controlmap</string>
+    <string name="customctrl_menu">Editor menu</string>
+    <string name="preference_show_menu_gear_title">Show menu gear in game</string>
+    <string name="preference_show_menu_gear_description">The gear at the top of the screen opens the game menu. If you turn it off, use a menu button in your controls to open it.</string>
 </resources>
