@@ -135,6 +135,14 @@
             android:layout_marginTop="@dimen/padding_large"
             android:text="@string/create_bta_instance" />
 
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/import_instance_backup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_large"
+            android:layout_marginTop="@dimen/padding_large"
+            android:text="@string/instance_backup_import" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"

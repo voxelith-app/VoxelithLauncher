@@ -101,6 +101,13 @@ public class Instances {
         return loadInstances(Instance.class, null);
     }
 
+    /** A free folder for an instance being imported. Created by the caller. */
+    static File newImportRoot() {
+        synchronized (sInstancePath) {
+            return findNewInstanceRoot("imported");
+        }
+    }
+
     private static File findNewInstanceRoot(String prefix) {
         File instanceRoot;
         do {
