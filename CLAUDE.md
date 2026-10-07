@@ -28,7 +28,8 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 ## Estrutura
 - app_pojavlauncher: o app (Java, pacote net.kdt.pojavlaunch, namespace git.artdeell.mojo). O namespace e os pacotes Java foram mantidos para não mexer em centenas de arquivos.
 - applicationId: app.voxelith.launcher (debug: app.voxelith.launcher.debug).
-- Build: `./gradlew :app_pojavlauncher:assembleFullDebug`. O dono só tem celular durante a semana: o APK sai pelo GitHub Actions (aba Actions, artefato app-debug).
+- Build: `./gradlew :app_pojavlauncher:assembleFullDebug`. O dono só tem celular durante a semana: o APK sai pelo GitHub Actions (aba Actions, artefato voxelith-debug).
+- Cada push na v3_openjdk publica o APK na release fixa `voxelith-nightly` (download sem login: releases/download/voxelith-nightly/voxelith.apk). O corpo da release tem `commit: <sha>`, que o app compara com o commit embutido no build (string voxelith_commit) para avisar que tem versão nova.
 
 ## Interface
 - Visual igual ao launcher de PC: superfícies escuras (#16181C, #1D1F23, #27292E, #34363C, #42444A), cantos arredondados (8/12/16dp), botão principal em ciano com texto preto, demais botões cinza.
@@ -47,7 +48,7 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - README enxuto, sem marketing e sem emoji.
 
 ## Pendências
-- Ely.by: o login usa o client ID do Mojo (mojolauncher2). Registrar um nosso no Ely.by ou desativar.
+- Ely.by: o login usa o client ID e o client secret do Mojo (mojolauncher2), em ElyByBackgroundLogin.java e ElyByLoginFragment.java. Registrar um app nosso no Ely.by (redirect internalredirect://complete) e trocar. Não desativar: o dono quer suporte a conta pirata.
 - Builds de release e Google Play usam as chaves do Mojo (mojo_*.jks). Criar chaves próprias antes de publicar.
 - O workflow baixa LTW e Mesa de repositórios do MojoLauncher. Conferir se o APK funciona sem eles ou se precisa fazer fork desses também.
 
@@ -56,3 +57,5 @@ Foco: otimização para celular e integração com o botão "Exportar para celul
 - 2026-10-06: interface refeita no estilo do launcher de PC, mantendo todas as funções.
 - 2026-10-06: gerenciador de mods feito com código próprio em Java. Zalith e launcher de PC só como referência. Só Modrinth, sem CurseForge.
 - 2026-10-06: botão Otimizar (tela de Mods) instala pacote de desempenho (Sodium/Embeddium, Lithium, FerriteCore, ModernFix, ImmediatelyFast, Entity Culling, MoreCulling, Dynamic FPS) e aplica opções leves no options.txt. Alvo: Samsung A05s (Snapdragon 680, Adreno 610, 4/6 GB). Renderizador padrão continua GL4ES; com Sodium o app troca sozinho para LTW.
+- 2026-10-07: suporte a conta pirata mantido (conta local e Ely.by). Conta local não exige conta Microsoft.
+- 2026-10-07: release fixa no GitHub, aviso de atualização no app e tela de detalhes do mod (descrição, até 4 imagens reduzidas e novidades da versão).
