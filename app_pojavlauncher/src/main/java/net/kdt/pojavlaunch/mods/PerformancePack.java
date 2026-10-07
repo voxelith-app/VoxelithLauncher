@@ -31,6 +31,7 @@ public final class PerformancePack {
                 groups.add(new String[]{"entityculling"});
                 groups.add(new String[]{"moreculling"});
                 groups.add(new String[]{"dynamic-fps"});
+                groups.add(new String[]{"badoptimizations"});
                 break;
             case "neoforge":
                 groups.add(new String[]{"sodium", "embeddium"});
@@ -40,6 +41,7 @@ public final class PerformancePack {
                 groups.add(new String[]{"immediatelyfast"});
                 groups.add(new String[]{"entityculling"});
                 groups.add(new String[]{"dynamic-fps"});
+                groups.add(new String[]{"badoptimizations"});
                 break;
             case "forge":
                 groups.add(new String[]{"embeddium"});
@@ -48,6 +50,7 @@ public final class PerformancePack {
                 groups.add(new String[]{"immediatelyfast"});
                 groups.add(new String[]{"entityculling"});
                 groups.add(new String[]{"dynamic-fps"});
+                groups.add(new String[]{"badoptimizations"});
                 break;
         }
         return groups;
@@ -67,6 +70,9 @@ public final class PerformancePack {
             {"renderClouds", "\"false\""},
             {"entityDistanceScaling", "0.75"},
             {"maxFps", "60"},
+            {"enableVsync", "false"},
+            // The menu blur from 1.20.5 costs a lot on weak GPUs
+            {"menuBackgroundBlurriness", "0"},
     };
 
     /** Writes the light settings into the instance options.txt, keeping every other option. */
