@@ -579,4 +579,8 @@
     <string name="update_available_download">Download</string>
     <string name="update_available_later">Later</string>
     <string name="update_available_ignore">Skip this version</string>
+    <string name="content_details_description">Description</string>
+    <string name="content_details_changelog">What\'s new in %1$s</string>
+    <string name="content_details_no_compatible">No compatible version</string>
+    <string name="content_target_downloads">%1$s downloads</string>
 </resources>

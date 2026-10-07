@@ -223,7 +223,7 @@ public class ContentBrowserFragment extends Fragment {
                     return;
                 }
                 String[] labels = new String[result.length];
-                for(int i = 0; i < result.length; i++) labels[i] = versionLabel(result[i]);
+                for(int i = 0; i < result.length; i++) labels[i] = ContentFragments.versionLabel(result[i]);
                 new AlertDialog.Builder(requireContext())
                         .setTitle(getString(R.string.content_versions_title, hit.title))
                         .setItems(labels, (d, which) -> install(hit, result[which]))
@@ -231,13 +231,6 @@ public class ContentBrowserFragment extends Fragment {
                         .show();
             });
         });
-    }
-
-    private static String versionLabel(ModrinthModels.Version version) {
-        StringBuilder label = new StringBuilder(version.versionNumber != null ? version.versionNumber : version.name);
-        if(version.versionType != null && !"release".equals(version.versionType)) label.append(" (").append(version.versionType).append(')');
-        if(version.loaders != null && version.loaders.length > 0) label.append(" · ").append(android.text.TextUtils.join(", ", version.loaders));
-        return label.toString();
     }
 
     private void install(ModrinthModels.SearchHit hit, @Nullable ModrinthModels.Version version) {
@@ -309,6 +302,8 @@ public class ContentBrowserFragment extends Fragment {
             holder.installButton.setOnClickListener(v -> install(hit, null));
             holder.versionsButton.setEnabled(!installing);
             holder.versionsButton.setOnClickListener(v -> chooseVersion(hit));
+            holder.itemView.setOnClickListener(v -> Tools.swapFragment(requireActivity(), ContentDetailsFragment.class,
+                    ContentDetailsFragment.TAG, ContentDetailsFragment.args(hit.projectId, mType)));
         }
 
         @Override

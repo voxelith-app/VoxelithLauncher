@@ -44,6 +44,28 @@ public final class ContentFragments {
         }
     }
 
+    public static String versionLabel(ModrinthModels.Version version) {
+        StringBuilder label = new StringBuilder(version.versionNumber != null ? version.versionNumber : version.name);
+        if(version.versionType != null && !"release".equals(version.versionType)) label.append(" (").append(version.versionType).append(')');
+        if(version.loaders != null && version.loaders.length > 0) label.append(" · ").append(android.text.TextUtils.join(", ", version.loaders));
+        return label.toString();
+    }
+
+    /** Turns a Modrinth markdown description into plain readable text, without pulling a markdown library. */
+    public static CharSequence markdownToText(@Nullable String markdown) {
+        if(markdown == null) return "";
+        String text = markdown
+                .replaceAll("!\\[[^\\]]*\\]\\([^)]*\\)", "")
+                .replaceAll("(?i)<img[^>]*>", "")
+                .replaceAll("\\[([^\\]]+)\\]\\([^)]+\\)", "$1")
+                .replaceAll("(?m)^#{1,6}\\s*", "")
+                .replaceAll("\\*\\*|__|`", "")
+                .replaceAll("(?m)^\\s*[-*]\\s+", "• ");
+        String html = text.replace("\n", "<br>");
+        String plain = androidx.core.text.HtmlCompat.fromHtml(html, androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+        return plain.replaceAll("\n{3,}", "\n\n").trim();
+    }
+
     public interface TabListener {
         void onTabSelected(ContentType type);
     }

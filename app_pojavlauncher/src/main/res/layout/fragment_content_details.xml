@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/details_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/background_icon_round"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/details_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/details_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/text_default"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/details_versions"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_flat"
+                android:contentDescription="@string/content_choose_version"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_content_versions" />
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/details_install"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minWidth="120dp"
+                android:paddingHorizontal="16dp"
+                android:background="@drawable/button_brand"
+                android:textColor="@color/button_brand_text"
+                android:enabled="false"
+                android:text="@string/content_install" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/details_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="10dp"
+            android:indeterminate="true" />
+
+        <HorizontalScrollView
+            android:id="@+id/details_gallery_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/details_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/details_changelog_title"
+            style="@style/ContentDetailsHeading"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/details_changelog"
+            style="@style/ContentDetailsBody"
+            android:visibility="gone" />
+
+        <TextView
+            style="@style/ContentDetailsHeading"
+            android:text="@string/content_details_description" />
+
+        <TextView
+            android:id="@+id/details_body"
+            style="@style/ContentDetailsBody" />
+    </LinearLayout>
+</ScrollView>

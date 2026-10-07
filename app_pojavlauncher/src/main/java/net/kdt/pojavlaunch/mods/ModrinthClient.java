@@ -92,6 +92,10 @@ public class ModrinthClient {
         return mGson.fromJson(response, new TypeToken<Map<String, ModrinthModels.Version>>(){}.getType());
     }
 
+    public ModrinthModels.Project getProject(String projectId) throws IOException {
+        return mGson.fromJson(request(BASE_URL + "project/" + encode(projectId), null), ModrinthModels.Project.class);
+    }
+
     public ModrinthModels.Project[] getProjects(Collection<String> projectIds) throws IOException {
         if(projectIds.isEmpty()) return new ModrinthModels.Project[0];
         String url = BASE_URL + "projects?ids=" + encode(mGson.toJson(projectIds));

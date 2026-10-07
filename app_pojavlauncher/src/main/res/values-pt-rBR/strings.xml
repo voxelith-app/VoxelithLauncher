@@ -541,4 +541,8 @@
     <string name="update_available_download">Baixar</string>
     <string name="update_available_later">Depois</string>
     <string name="update_available_ignore">Pular esta versão</string>
+    <string name="content_details_description">Descrição</string>
+    <string name="content_details_changelog">Novidades da versão %1$s</string>
+    <string name="content_details_no_compatible">Sem versão compatível</string>
+    <string name="content_target_downloads">%1$s downloads</string>
 </resources>

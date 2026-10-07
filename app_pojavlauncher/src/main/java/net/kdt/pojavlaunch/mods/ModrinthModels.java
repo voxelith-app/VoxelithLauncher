@@ -31,6 +31,16 @@ public final class ModrinthModels {
         public String title;
         public String iconUrl;
         public String projectType;
+        public String description;
+        public String body;
+        public long downloads;
+        public GalleryImage[] gallery;
+    }
+
+    public static class GalleryImage {
+        public String url;
+        public String title;
+        public boolean featured;
     }
 
     public static class Version {
@@ -41,6 +51,7 @@ public final class ModrinthModels {
         public String versionType;
         public String[] gameVersions;
         public String[] loaders;
+        public String changelog;
         public VersionFile[] files;
         public Dependency[] dependencies;
 
