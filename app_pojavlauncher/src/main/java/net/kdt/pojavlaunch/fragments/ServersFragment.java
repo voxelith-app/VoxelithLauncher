@@ -1,5 +1,6 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -106,9 +107,14 @@ public class ServersFragment extends Fragment {
     }
 
     private void play(SavedServer server) {
+        join(requireContext(), server);
+    }
+
+    /** Starts the selected instance and joins the server as soon as the game opens. */
+    public static void join(Context context, SavedServer server) {
         Instance instance = Instances.loadSelectedInstance();
         if(instance == null) {
-            Toast.makeText(requireContext(), R.string.no_instance, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.no_instance, Toast.LENGTH_LONG).show();
             return;
         }
         QuickPlay.request(server.address);

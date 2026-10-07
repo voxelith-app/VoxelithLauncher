@@ -628,4 +628,5 @@
     <string name="update_check_local_build">Esta versão foi compilada localmente e não procura atualização</string>
     <string name="preference_misc_title">Downloads e dados</string>
     <string name="preference_misc_description">Fonte de download, verificação de arquivos, cache e migração</string>
+    <string name="home_jump_back_in">Voltar a jogar</string>
 </resources>

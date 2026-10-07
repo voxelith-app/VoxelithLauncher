@@ -666,4 +666,5 @@
     <string name="update_check_local_build">This build was made locally and does not check for updates</string>
     <string name="preference_misc_title">Downloads and data</string>
     <string name="preference_misc_description">Download source, file checks, cache and migration</string>
+    <string name="home_jump_back_in">Jump back in</string>
 </resources>

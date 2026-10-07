@@ -1,5 +1,16 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.text.format.DateUtils;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import net.kdt.pojavlaunch.PojavApplication;
+import net.kdt.pojavlaunch.servers.SavedServer;
+import net.kdt.pojavlaunch.servers.ServerStore;
+
+import java.util.ArrayList;
+import java.util.List;
 import static net.kdt.pojavlaunch.Tools.openPath;
 import static net.kdt.pojavlaunch.Tools.shareLog;
 
@@ -107,6 +118,40 @@ public class MainMenuFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ExtraCore.setValue(ExtraConstants.REFRESH_ACCOUNT_SPINNER, true);
+        loadRecentServers();
+    }
+
+    private void loadRecentServers() {
+        View view = getView();
+        if(view == null || view.findViewById(R.id.recent_section) == null) return;
+        PojavApplication.sExecutorService.execute(() -> {
+            List<SavedServer> recent = new ArrayList<>(3);
+            for(SavedServer server : ServerStore.loadAll()) {
+                if(server.lastPlayed <= 0) break;
+                recent.add(server);
+                if(recent.size() == 3) break;
+            }
+            Tools.runOnUiThread(() -> showRecentServers(recent));
+        });
+    }
+
+    private void showRecentServers(List<SavedServer> recent) {
+        View view = getView();
+        if(!isAdded() || view == null) return;
+        View section = view.findViewById(R.id.recent_section);
+        LinearLayout list = view.findViewById(R.id.recent_list);
+        list.removeAllViews();
+        section.setVisibility(recent.isEmpty() ? View.GONE : View.VISIBLE);
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        long now = System.currentTimeMillis();
+        for(SavedServer server : recent) {
+            View row = inflater.inflate(R.layout.item_recent_server, list, false);
+            ((TextView) row.findViewById(R.id.recent_name)).setText(server.name);
+            CharSequence when = DateUtils.getRelativeTimeSpanString(server.lastPlayed, now, DateUtils.MINUTE_IN_MILLIS);
+            ((TextView) row.findViewById(R.id.recent_detail)).setText(server.address + " · " + when);
+            row.setOnClickListener(v -> ServersFragment.join(requireContext(), server));
+            list.addView(row);
+        }
     }
 
     private void runInstallerWithConfirmation() {
