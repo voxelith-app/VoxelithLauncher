@@ -1,0 +1,33 @@
+{
+  "name": "BlackHosting",
+  "tagline": "Hospedagem de Minecraft e VPS com datacenter em São Paulo",
+  "url": "https://blackhosting.com.br/minecraft",
+  "coupon": "PROMO10",
+  "couponText": "10% de desconto na hospedagem de Minecraft",
+  "features": [
+    {"title": "Anti-DDoS", "text": "Proteção inclusa em todos os planos"},
+    {"title": "São Paulo", "text": "Datacenter no Brasil, ping baixo"},
+    {"title": "NVMe", "text": "Armazenamento rápido para mundos grandes"},
+    {"title": "Pterodactyl", "text": "Painel completo para gerenciar o servidor"},
+    {"title": "Ryzen 9 9950X", "text": "Para modpacks pesados, ou Xeon para começar"},
+    {"title": "Suporte humano", "text": "Atendimento de gente de verdade"}
+  ],
+  "plans": [
+    {"name": "4 GB", "cpu": "3 vCPU", "disk": "20 GB NVMe", "price": "R$ 24,99"},
+    {"name": "6 GB", "cpu": "4 vCPU", "disk": "30 GB NVMe", "price": "R$ 36,99"},
+    {"name": "8 GB", "cpu": "5 vCPU", "disk": "40 GB NVMe", "price": "R$ 48,99", "highlight": true},
+    {"name": "10 GB", "cpu": "6 vCPU", "disk": "50 GB NVMe", "price": "R$ 59,99"},
+    {"name": "12 GB", "cpu": "7 vCPU", "disk": "60 GB NVMe", "price": "R$ 71,99"},
+    {"name": "16 GB", "cpu": "9 vCPU", "disk": "80 GB NVMe", "price": "R$ 95,99"},
+    {"name": "24 GB", "cpu": "14 vCPU", "disk": "120 GB NVMe", "price": "R$ 143,99"},
+    {"name": "32 GB", "cpu": "16 vCPU", "disk": "160 GB NVMe", "price": "R$ 191,99"}
+  ],
+  "extras": [
+    {"title": "VPS Xeon e Ryzen 9", "text": "Para quem quer controle total da máquina"},
+    {"title": "Sites, bots e outros jogos", "text": "Tudo no mesmo lugar"}
+  ],
+  "links": [
+    {"label": "Ver planos no site", "url": "https://blackhosting.com.br/minecraft"},
+    {"label": "Página inicial", "url": "https://blackhosting.com.br"}
+  ]
+}
